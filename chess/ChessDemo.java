@@ -130,6 +130,7 @@ public class ChessDemo {
 					width, height, 40+bpi,120);	
 			mgrLayers.addLayer(piece);
 	    }
+	    
 	    // display pawns for black player
 	    int bpa = 0;
 	    BufferedImage builderbpa = null;
@@ -141,6 +142,7 @@ public class ChessDemo {
 			mgrLayers.addLayer(piece);
 	    }
 	    
+	    
 	    // display pieces for white player
 	    int wpi = 0;
 	    BufferedImage builderwpi = null;
@@ -151,6 +153,7 @@ public class ChessDemo {
 					width, height, 40+wpi,680);	
 			mgrLayers.addLayer(piece);
 	    }
+	    
 	    // display pawns for white player
 	    int wpa = 0;
 	    BufferedImage builderwpa = null;
