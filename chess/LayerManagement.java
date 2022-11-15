@@ -1,4 +1,4 @@
-package com.slprojects.chessgame.chess;
+package chess;
 
 
 import java.awt.Graphics;

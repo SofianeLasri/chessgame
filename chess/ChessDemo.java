@@ -1,4 +1,4 @@
-package com.slprojects.chessgame.chess;
+package chess;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -25,15 +25,15 @@ public class ChessDemo {
 		LayerManagement mgrLayers = new LayerManagement();
 		mgrLayers.setPreferredSize(new Dimension(width,height));
 		ChessGraphicTool chessGraphicTool  = new ChessGraphicTool(); 
-		String imagePath = new String("D:\\Git\\ChessGame\\src\\main\\java\\com\\slprojects\\chessgame\\chess\\images\\");
+		String imagePath = new String("Z:/PRISM1/acsi/chessGame/chessStudent/chess/images/");
 		
-		ChessGUI.showOnFrame(mgrLayers, "Chess game");
+		ChessGUI.showOnFrame(mgrLayers, "Comment réussir les échecs");
 		ChessMouseEvent chessMouseEvent = ChessGUI.getChessMouseEvent();
 		RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);		
 		BufferedImage emptyLayer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		
 		// ===============
-		// YOUR CODE HERE - HEREAFTER PLEASE FIND  BASIC MATERIAL FOR THE PLAY
+		// YOUR CODE HERE - HERE AFTER PLEASE FIND  BASIC MATERIAL FOR THE PLAY
 		// ===============
 		
 		// create a black background		
@@ -44,16 +44,17 @@ public class ChessDemo {
 		foregroundGC.setColor(java.awt.Color.BLACK);
 		foregroundGC.fill3DRect(0,0,width,height,true);
 		
-		// drawing three squares with green border
+		//drawing the chess board
 		BufferedImage chessBoard = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		mgrLayers.addLayer(chessBoard);
 		java.awt.Graphics2D chessBoardGC = (Graphics2D) chessBoard.getGraphics();
 		chessBoardGC.setRenderingHints(rh);
-		chessBoardGC.setColor(java.awt.Color.GREEN);
-		chessBoardGC.draw3DRect(500,200,60,60,true); // xcenter, ycenter, width=60 , height=60
-		chessBoardGC.draw3DRect(500,260,60,60,true);
-		chessBoardGC.draw3DRect(500,320,60,60,true);
-//		chessGraphicTool.clearColor(foreground,java.awt.Color.BLACK);
+		chessBoardGC.setColor(java.awt.Color.WHITE); // color of the chess board
+		for (int y = 100; y < 740; y += 80) { // lines
+			for (int x = 100; x < 740; x += 80) { // columns
+				chessBoardGC.draw3DRect(x,y,80,80,true); // xcenter, ycenter, width=80 , height=80
+			}
+		}
 		
 		// create a builder layer for the chess piece
 		// and load two images pawns.
@@ -90,8 +91,6 @@ public class ChessDemo {
 	    // king-black.png		knight-white.png	queen-black.png		rook-white.png
 	    // bishop-black.png	king-white.png		pawn-black.png		queen-white.png
 	    // bishop-white.png	knight-black.png	pawn-white.png		rook-black.png
-	    
-	    //
 	    ArrayList<String> chessPiece = new ArrayList<String>();
 	    chessPiece.add(new String("king-black.png"));
 	    chessPiece.add(new String("knight-white.png"));
@@ -141,7 +140,7 @@ public class ChessDemo {
 				gcb.drawImage(blackPawnImage , x-20, y-60, null); // copy the piece in the blackPawn graphic context at the right place
 						
 				// Example with the computer 
-				if (counter == 20) {
+				if (counter == 200000000) {
 					System.out.println("Computer player - please wait - analyze is running (5s)");
 					try { Thread.sleep(5000); } catch (Exception e) { e.printStackTrace(); }
 					System.out.println("Computer player - Done !");
