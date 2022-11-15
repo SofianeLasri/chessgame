@@ -1,1 +1,1 @@
-Project has to be open on Eclipse
+Project has to be opened on Eclipse
