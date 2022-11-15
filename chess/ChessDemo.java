@@ -20,8 +20,8 @@ public class ChessDemo {
 	public static void main(String[] args) {
 
 		// Initialization
-		int width = 1200;
-		int height = 800;
+		int width = 840;
+		int height = 840;
 		LayerManagement mgrLayers = new LayerManagement();
 		mgrLayers.setPreferredSize(new Dimension(width,height));
 		ChessGraphicTool chessGraphicTool  = new ChessGraphicTool(); 
@@ -82,36 +82,83 @@ public class ChessDemo {
 	    BufferedImage blackPawnLayer = chessGraphicTool.createImage(blackPawnImage , 
 				width, height, xorigin, yorigin);	
 		
-	    // add the new layers
-	    mgrLayers.addLayer(whitePawnLayer);
-	    mgrLayers.addLayer(blackPawnLayer);
+//	    // add the new layers
+//	    mgrLayers.addLayer(whitePawnLayer);
+//	    mgrLayers.addLayer(blackPawnLayer);
 	    
+	    // adding pieces to its list
+	    ArrayList<String> chessPiecesBlack = new ArrayList<String>();
+	    ArrayList<String> chessPiecesWhite = new ArrayList<String>();
 	    
-	    // The list of the images :
-	    // king-black.png		knight-white.png	queen-black.png		rook-white.png
-	    // bishop-black.png	king-white.png		pawn-black.png		queen-white.png
-	    // bishop-white.png	knight-black.png	pawn-white.png		rook-black.png
-	    ArrayList<String> chessPiece = new ArrayList<String>();
-	    chessPiece.add(new String("king-black.png"));
-	    chessPiece.add(new String("knight-white.png"));
-	    chessPiece.add(new String("queen-black.png"));
-	    chessPiece.add(new String("rook-white.png"));
-	    chessPiece.add(new String("bishop-black.png"));
-	    chessPiece.add(new String("pawn-black.png"));
-	    chessPiece.add(new String("queen-white.png"));
-	    chessPiece.add(new String("king-black.png"));
-	    chessPiece.add(new String("bishop-white.png"));
-	    chessPiece.add(new String("knight-black.png"));
-	    chessPiece.add(new String("pawn-white.png"));
-	    chessPiece.add(new String("rook-black.png"));
+	    chessPiecesBlack.add(new String("rook-black.png"));
+	    chessPiecesBlack.add(new String("knight-black.png"));
+	    chessPiecesBlack.add(new String("bishop-black.png"));
+	    chessPiecesBlack.add(new String("queen-black.png"));
+	    chessPiecesBlack.add(new String("king-black.png"));
+	    chessPiecesBlack.add(new String("bishop-black.png"));
+	    chessPiecesBlack.add(new String("knight-black.png"));
+	    chessPiecesBlack.add(new String("rook-black.png"));
 	    
-	    int i = 0;
-	    BufferedImage builder = null;
-	    for (java.lang.String pieceId : chessPiece) {
-	    	i += 60;
-	    	builder = ChessGraphicTool.load(imagePath+pieceId);
-	    	BufferedImage piece = chessGraphicTool.createImage(builder , 
-					width, height, 15+i,400);	
+	    chessPiecesWhite.add(new String("rook-white.png"));
+	    chessPiecesWhite.add(new String("knight-white.png"));
+	    chessPiecesWhite.add(new String("bishop-white.png"));
+	    chessPiecesWhite.add(new String("queen-white.png"));
+	    chessPiecesWhite.add(new String("king-white.png"));
+	    chessPiecesWhite.add(new String("bishop-white.png"));
+	    chessPiecesWhite.add(new String("knight-white.png"));
+	    chessPiecesWhite.add(new String("rook-white.png"));
+	    
+	    // adding pawns to its list
+	    ArrayList<String> chessPawnsBlack = new ArrayList<String>();
+	    ArrayList<String> chessPawnsWhite = new ArrayList<String>();
+
+	    for (int i = 8; i > 0; i--) {
+	    	chessPawnsBlack.add(new String("pawn-black.png"));
+	    }
+	    
+	    for (int i = 8; i > 0; i--) {
+	    	chessPawnsWhite.add(new String("pawn-white.png"));
+	    }
+	    
+	    // display pieces for black player
+	    int bpi = 0;
+	    BufferedImage builderbpi = null;
+	    for (java.lang.String pieceId : chessPiecesBlack) {
+	    	bpi += 80;
+	    	builderbpi = ChessGraphicTool.load(imagePath+pieceId);
+	    	BufferedImage piece = chessGraphicTool.createImage(builderbpi , 
+					width, height, 40+bpi,120);	
+			mgrLayers.addLayer(piece);
+	    }
+	    // display pawns for black player
+	    int bpa = 0;
+	    BufferedImage builderbpa = null;
+	    for (java.lang.String pieceId : chessPawnsBlack) {
+	    	bpa += 80;
+	    	builderbpa = ChessGraphicTool.load(imagePath+pieceId);
+	    	BufferedImage piece = chessGraphicTool.createImage(builderbpa , 
+					width, height, 40+bpa,200);	
+			mgrLayers.addLayer(piece);
+	    }
+	    
+	    // display pieces for white player
+	    int wpi = 0;
+	    BufferedImage builderwpi = null;
+	    for (java.lang.String pieceId : chessPiecesWhite) {
+	    	wpi += 80;
+	    	builderwpi = ChessGraphicTool.load(imagePath+pieceId);
+	    	BufferedImage piece = chessGraphicTool.createImage(builderwpi , 
+					width, height, 40+wpi,680);	
+			mgrLayers.addLayer(piece);
+	    }
+	    // display pawns for white player
+	    int wpa = 0;
+	    BufferedImage builderwpa = null;
+	    for (java.lang.String pieceId : chessPawnsWhite) {
+	    	wpa += 80;
+	    	builderwpa = ChessGraphicTool.load(imagePath+pieceId);
+	    	BufferedImage piece = chessGraphicTool.createImage(builderwpa , 
+					width, height, 40+wpa,600);	
 			mgrLayers.addLayer(piece);
 	    }
 	    
