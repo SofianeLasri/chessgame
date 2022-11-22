@@ -24,7 +24,7 @@ public class ChessDemo {
 		LayerManagement mgrLayers = new LayerManagement();
 		mgrLayers.setPreferredSize(new Dimension(width,height));
 		ChessGraphicTool chessGraphicTool  = new ChessGraphicTool(); 
-		String imagePath = new String("Z:/PRISM1/acsi/chess/chessgame/chess/images/");
+		String imagePath = new String("./images/");
 		
 		ChessGUI.showOnFrame(mgrLayers, "Comment réussir les échecs");
 		ChessMouseEvent chessMouseEvent = ChessGUI.getChessMouseEvent();

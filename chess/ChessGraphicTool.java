@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 
@@ -14,13 +15,15 @@ public class ChessGraphicTool {
 	
 	  /**
      * load an image from disk
-     * @param imageFile is the path+name of the file to load
+     * @param imagePath is the path+name of the file to load
      * @return a BufferedImage or null on error
      */
     static public BufferedImage load(final String imagePath) {
-    	File file = null; 	
+    	File file = null;
+		System.out.println("imagePath:" + imagePath);
     	try {
-    		file = new File( imagePath);
+			URL fileUrl = ChessGraphicTool.class.getResource(imagePath);
+    		file = new File(fileUrl.getPath());
     		if (!file.exists()) return null;		// image not found
     		return ImageIO.read(file);
     	}
