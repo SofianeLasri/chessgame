@@ -16,8 +16,13 @@ import java.util.ArrayList;
 
 public class ChessDemo {
 
+	private static int positions(int x){
+		System.out.println(x);
+		return x*80+40;
+	}
+	
     public static void main(String[] args) {
-
+    	
         // Initialization
         int width = 840;
         int height = 840;
@@ -48,25 +53,25 @@ public class ChessDemo {
         mgrLayers.addLayer(chessBoard);
         java.awt.Graphics2D chessBoardGC = (Graphics2D) chessBoard.getGraphics();
         chessBoardGC.setRenderingHints(rh);
-        chessBoardGC.setColor(java.awt.Color.WHITE); // color of the chess board
-        boolean pair_impair = false;
-        int line = 0;
+
+        boolean pair_impair = false; // vérifie si la case est paire ou impaire pour savoir comment la colorier
+        int line = 0; // vérifie sur quelle ligne on est pour le décalage des couleurs
         for (int y = 100; y < 740; y += 80) { // lines
             for (int x = 100; x < 740; x += 80) { // columns
                 // chessBoardGC.draw3DRect(x,y,80,80,true); // xcenter, ycenter, width=80 , height=80
                 if (pair_impair) {
                     pair_impair = !pair_impair;
-                    chessBoardGC.setColor(java.awt.Color.WHITE);
+                    chessBoardGC.setColor(java.awt.Color.WHITE); // remplis la couleur du rectangle dessiné
                 } else {
                     pair_impair = !pair_impair;
-                    chessBoardGC.setColor(java.awt.Color.BLACK);
+                    chessBoardGC.setColor(java.awt.Color.BLACK); // remplis la couleur du rectangle dessiné
                 }
                 line++;
                 if (line == 8) {
                     pair_impair = !pair_impair;
                     line = 0;
                 }
-                chessBoardGC.fill3DRect(x, y, 80, 80, true);
+                chessBoardGC.fillRect(x, y, 80, 80);
             }
         }
 
@@ -90,6 +95,7 @@ public class ChessDemo {
         if (blackPawnImage == null) {
             System.out.println("Error image not found : " + imagePath + "pawn-black.png");
         }
+        
         // create a dedicated layer and copy the new pawn image at the right coordinates 
         xorigin = 510;
         yorigin = 330;
@@ -134,50 +140,44 @@ public class ChessDemo {
             chessPawnsWhite.add(new String("pawn-white.png"));
         }
 
+        int posx, posy;
+        
         // display pieces for black player
-        int bpi = 0;
         BufferedImage builderbpi = null;
-        for (java.lang.String pieceId : chessPiecesBlack) {
-            bpi += 80;
-            builderbpi = ChessGraphicTool.load(imagePath + pieceId);
-            BufferedImage piece = chessGraphicTool.createImage(builderbpi,
-                    width, height, 40 + bpi, 120);
-            mgrLayers.addLayer(piece);
-        }
-
-        // display pawns for black player
-        int bpa = 0;
-        BufferedImage builderbpa = null;
-        for (java.lang.String pieceId : chessPawnsBlack) {
-            bpa += 80;
-            builderbpa = ChessGraphicTool.load(imagePath + pieceId);
-            BufferedImage piece = chessGraphicTool.createImage(builderbpa,
-                    width, height, 40 + bpa, 200);
-            mgrLayers.addLayer(piece);
-        }
-
-
-        // display pieces for white player
-        int wpi = 0;
-        BufferedImage builderwpi = null;
-        for (java.lang.String pieceId : chessPiecesWhite) {
-            wpi += 80;
-            builderwpi = ChessGraphicTool.load(imagePath + pieceId);
-            BufferedImage piece = chessGraphicTool.createImage(builderwpi,
-                    width, height, 40 + wpi, 680);
-            mgrLayers.addLayer(piece);
-        }
-
-        // display pawns for white player
-        int wpa = 0;
-        BufferedImage builderwpa = null;
-        for (java.lang.String pieceId : chessPawnsWhite) {
-            wpa += 80;
-            builderwpa = ChessGraphicTool.load(imagePath + pieceId);
-            BufferedImage piece = chessGraphicTool.createImage(builderwpa,
-                    width, height, 40 + wpa, 600);
-            mgrLayers.addLayer(piece);
-        }
+        posx = posy = 1;
+		for (java.lang.String pieceId : chessPiecesBlack) { 
+			  builderbpi = ChessGraphicTool.load(imagePath + pieceId);
+			  BufferedImage piece = chessGraphicTool.createImage(builderbpi, width, height, positions(posx), positions(posy)); 
+			  mgrLayers.addLayer(piece); posx++;}
+		  
+		// display pawns for black player 
+		BufferedImage builderbpa = null; 
+	    posx = 1;
+	    posy = 2;
+	    for (java.lang.String pieceId : chessPawnsBlack) {
+			builderbpa = ChessGraphicTool.load(imagePath + pieceId); 
+			BufferedImage piece = chessGraphicTool.createImage(builderbpa, width, height, positions(posx), positions(posy));
+			mgrLayers.addLayer(piece); posx++;}
+		  
+		  
+		// display pieces for white player
+		BufferedImage builderwpi = null; 
+	    posx = 1;
+	    posy = 7;
+	    for (java.lang.String pieceId : chessPiecesWhite) { 
+	    	builderwpi = ChessGraphicTool.load(imagePath + pieceId); 
+			BufferedImage piece = chessGraphicTool.createImage(builderwpi, width, height, positions(posx), positions(posy));
+			mgrLayers.addLayer(piece); posx++;}
+		  
+		// display pawns for white player 
+		BufferedImage builderwpa = null; 
+	    posx = 1;
+	    posy = 8;
+	    for (java.lang.String pieceId : chessPawnsWhite) { 
+	    	builderwpa = ChessGraphicTool.load(imagePath + pieceId); 
+			BufferedImage piece = chessGraphicTool.createImage(builderwpa, width, height, positions(posx), positions(posy));
+			mgrLayers.addLayer(piece); posx++;}
+		 
 
         // display all the layers
         mgrLayers.repaint();
