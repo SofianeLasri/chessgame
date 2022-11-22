@@ -3,6 +3,7 @@ package chess;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -14,9 +15,7 @@ import java.util.ArrayList;
 
 
 public class ChessDemo {
-
 	
-
 	public static void main(String[] args) {
 
 		// Initialization
@@ -25,7 +24,7 @@ public class ChessDemo {
 		LayerManagement mgrLayers = new LayerManagement();
 		mgrLayers.setPreferredSize(new Dimension(width,height));
 		ChessGraphicTool chessGraphicTool  = new ChessGraphicTool(); 
-		String imagePath = new String("Z:/PRISM1/acsi/chessGame/chessStudent/chess/images/");
+		String imagePath = new String("Z:/PRISM1/acsi/chess/chessgame/chess/images/");
 		
 		ChessGUI.showOnFrame(mgrLayers, "Comment réussir les échecs");
 		ChessMouseEvent chessMouseEvent = ChessGUI.getChessMouseEvent();
@@ -50,9 +49,24 @@ public class ChessDemo {
 		java.awt.Graphics2D chessBoardGC = (Graphics2D) chessBoard.getGraphics();
 		chessBoardGC.setRenderingHints(rh);
 		chessBoardGC.setColor(java.awt.Color.WHITE); // color of the chess board
+		boolean pair_impair = false;
+		int line = 0;
 		for (int y = 100; y < 740; y += 80) { // lines
 			for (int x = 100; x < 740; x += 80) { // columns
-				chessBoardGC.draw3DRect(x,y,80,80,true); // xcenter, ycenter, width=80 , height=80
+				// chessBoardGC.draw3DRect(x,y,80,80,true); // xcenter, ycenter, width=80 , height=80
+				if(pair_impair) {
+					pair_impair = !pair_impair;
+					chessBoardGC.setColor(java.awt.Color.WHITE);
+				}else {
+					pair_impair = !pair_impair;
+					chessBoardGC.setColor(java.awt.Color.BLACK);
+				}
+				line ++;
+				if(line == 8) {
+					pair_impair = !pair_impair;
+					line = 0;
+				}
+				chessBoardGC.fill3DRect(x,y,80,80,true);
 			}
 		}
 		
