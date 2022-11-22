@@ -36,3 +36,31 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+# Propre au projet
+/.idea/.gitignore
+/out/production/chessgame-Romain/.idea/.gitignore
+/out/production/chessgame-Romain/chess/.gitignore
+/out/production/chessgame-Romain/.gitignore
+/out/production/chessgame-Romain/chess/images/bishop-black.png
+/out/production/chessgame-Romain/chess/images/bishop-white.png
+/.idea/encodings.xml
+/out/production/chessgame-Romain/.idea/encodings.xml
+/.idea/jpa-buddy.xml
+/out/production/chessgame-Romain/.idea/jpa-buddy.xml
+/out/production/chessgame-Romain/chess/images/king-black.png
+/out/production/chessgame-Romain/chess/images/king-white.png
+/out/production/chessgame-Romain/chess/images/knight-black.png
+/out/production/chessgame-Romain/chess/images/knight-white.png
+/out/production/chessgame-Romain/META-INF/MANIFEST.MF
+/.idea/misc.xml
+/out/production/chessgame-Romain/.idea/misc.xml
+/out/production/chessgame-Romain/chess/images/pawn-black.png
+/out/production/chessgame-Romain/chess/images/pawn-white.png
+/out/production/chessgame-Romain/chess/images/queen-black.png
+/out/production/chessgame-Romain/chess/images/queen-white.png
+/out/production/chessgame-Romain/README.md
+/out/production/chessgame-Romain/chess/images/rook-black.png
+/out/production/chessgame-Romain/chess/images/rook-white.png
+/.idea/vcs.xml
+/out/production/chessgame-Romain/.idea/vcs.xml
