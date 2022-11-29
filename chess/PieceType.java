@@ -19,31 +19,37 @@ public class PieceType {
 
 
 	public int[] PossibleMove() {
-		int[] moves = {0,0};
+		int[] moves = {0,0,0};
 		switch(this.type) {
 			case "pawn":
 				moves[0] = 0;
-				moves[1] = 1;
+				moves[1] = 2;
+				moves[2] = 0;
 				break;
 			case "tower":
-				moves[0] = 0;
-				moves[1] = 1;
+				moves[0] = 8;
+				moves[1] = 8;
+				moves[2] = 0;
 				break;
 			case "knight":
-				moves[0] = 0;
+				moves[0] = 2;
 				moves[1] = 1;
+				moves[2] = 0;
 				break;
-			case "fool":
+			case "rook":
 				moves[0] = 0;
-				moves[1] = 1;
+				moves[1] = 0;
+				moves[2] = 8;
 				break;
 			case "queen":
-				moves[0] = 0;
-				moves[1] = 1;
+				moves[0] = 8;
+				moves[1] = 8;
+				moves[2] = 8;
 				break;
 			case "king":
-				moves[0] = 0;
+				moves[0] = 1;
 				moves[1] = 1;
+				moves[2] = 1;
 				break;
 		}
 		return moves;
