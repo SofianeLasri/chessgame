@@ -114,7 +114,7 @@ public class ChessDemo {
         // create a dedicated layer and copy the new pawn image at the right coordinates 
         xorigin = 510;
         yorigin = 330;
-        BufferedImage blackPawnLayer = chessGraphicTool.createImage(blackPawnImage,width, height, xorigin, yorigin);
+        BufferedImage blackPawnLayer = chessGraphicTool.createImage(blackPawnImage,80, 80, xorigin, yorigin);
 
 //	    // add the new layers
 //	    mgrLayers.addLayer(whitePawnLayer);
@@ -150,8 +150,8 @@ public class ChessDemo {
             whiteChessPiecesImages.add("pawn-white.png");
         }
 
-        Piece pieces_white[] = new Piece[30];
-        Piece pieces_black[] = new Piece[30];
+        Piece pieces_white[] = new Piece[90];
+        Piece pieces_black[] = new Piece[90];
         
         Player p1 = new Player("black", 16, 0, pieces_white);
         Player p2 = new Player("white", 16, 0, pieces_black);
