@@ -185,7 +185,7 @@ public class ChessDemo {
         }
 
         for (String pieceName : piecesList) {
-            Piece p = new Piece(pieceName + "-" + color + ".png");
+            Piece p = new Piece(pieceName + "-" + color + ".png", color);
             pieces.add(p);
             BufferedImage piece = chessGraphicTool.createImage(p.getImage(), windowWidth, windowHeight, positions(posx), positions(posy));
             mgrLayers.addLayer(piece);

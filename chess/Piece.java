@@ -3,8 +3,9 @@ package chess;
 import java.awt.image.BufferedImage;
 
 public class Piece {
-    PieceType type;
-    BufferedImage image;
+    private PieceType type;
+    private BufferedImage image;
+    private String color;
 
     public PieceType getType() {
         return type;
@@ -18,13 +19,18 @@ public class Piece {
         return image;
     }
 
+    public String getColor(){
+        return this.color;
+    }
+
     public void setImage(BufferedImage image) {
         this.image = image;
     }
 
-    public Piece(String image) {
+    public Piece(String image, String color) {
         super();
         this.type = new PieceType(image);
+        this.color = color;
         this.image = ChessGraphicTool.load(ChessDemo.imagePath + image);
     }
 }
