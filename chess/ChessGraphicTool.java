@@ -19,7 +19,6 @@ public class ChessGraphicTool {
      */
     static public BufferedImage load(final String imagePath) {
         File file;
-        System.out.println("imagePath:" + imagePath);
         try {
             URL fileUrl = ChessGraphicTool.class.getResource(imagePath);
             file = new File(fileUrl.getPath());
