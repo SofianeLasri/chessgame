@@ -135,6 +135,12 @@ public class ChessDemo {
             whiteChessPiecesImages.add("pawn-white.png");
         }
 
+        Piece pieces_white[] = new Piece[30];
+        Piece pieces_black[] = new Piece[30];
+        
+        Player p1 = new Player("white", 16, 0, pieces_white);
+        Player p2 = new Player("black", 16, 0, pieces_black);
+        
         int posx, posy;
 
         // display pieces for black player
@@ -143,9 +149,10 @@ public class ChessDemo {
         for (String pieceImage : blackChessPiecesImages) {
             Piece p = new Piece(pieceImage);
             pieces.add(p);
+            p1.pieces[posx+(10*posy)] = p;
+            int calcul = posx+(10*posy);
             BufferedImage piece = chessGraphicTool.createImage(p.getImage(), width, height, positions(posx), positions(posy));
             mgrLayers.addLayer(piece);
-
             posx++;
             if (posx == 9) {
                 posy++;
@@ -153,41 +160,29 @@ public class ChessDemo {
             }
         }
 
-//		// display pawns for black player 
-//		BufferedImage builderbpa = null; 
-//	    posx = 1;
-//	    posy = 2;
-//	    for (java.lang.String pieceId : chessPawnsBlack) {
-//			builderbpa = ChessGraphicTool.load(imagePath + pieceId); 
-//			BufferedImage piece = chessGraphicTool.createImage(builderbpa, width, height, positions(posx), positions(posy));
-//			mgrLayers.addLayer(piece); posx++;}
-//		  
-
         // display pieces for white player
         posx = 1;
         posy = 8;
         for (String pieceImage : whiteChessPiecesImages) {
             Piece p = new Piece(pieceImage);
             pieces.add(p);
+            p2.pieces[posx+(10*(9-posy))] = p;
+            int calcul = posx+(10*(9-posy));
             BufferedImage piece = chessGraphicTool.createImage(p.getImage(), width, height, positions(posx), positions(posy));
             mgrLayers.addLayer(piece);
-
             posx++;
             if (posx == 9) {
                 posy--;
                 posx = 1;
             }
         }
-
-//		// display pawns for white player 
-//		BufferedImage builderwpa = null; 
-//	    posx = 1;
-//	    posy = 8;
-//	    for (java.lang.String pieceId : chessPawnsWhite) { 
-//	    	builderwpa = ChessGraphicTool.load(imagePath + pieceId); 
-//			BufferedImage piece = chessGraphicTool.createImage(builderwpa, width, height, positions(posx), positions(posy));
-//			mgrLayers.addLayer(piece); posx++;}
-//		 
+        int youlala=0;
+        for(Piece p : p1.pieces) {
+        	try {
+        	System.out.println("Type " + youlala + " : " + p.getType().type.toString());
+        	youlala++;
+        	}catch(Exception e){}
+        }
 
         // display all the layers
         mgrLayers.repaint();
