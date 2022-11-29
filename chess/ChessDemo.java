@@ -5,13 +5,6 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-// Modules used :
-//import chess.ChessGUI;
-//import chess.ChessMouseEvent;
-//import chess.ChessGraphicTool;
-//import chess.LayerManagement;
-
-
 public class ChessDemo {
 
     private static int positions(int x) {
@@ -21,7 +14,7 @@ public class ChessDemo {
 
     public static String imagePath = "./images/";
 
-    public static List<String> piecesList = new ArrayList<String>(){
+    public static List<String> piecesList = new ArrayList<>() {
         {
             add("rook");
             add("knight");
@@ -124,8 +117,6 @@ public class ChessDemo {
         BufferedImage blackPawnLayer = chessGraphicTool.createImage(blackPawnImage,
                 windowWidth, windowHeight, xorigin, yorigin);
 
-        int posx, posy;
-
         // display pieces for black player
         createPieces("black");
 
@@ -184,11 +175,11 @@ public class ChessDemo {
     }
 
     private static void createPieces(String color) {
-        List<Piece> pieces = new ArrayList<Piece>();
+        List<Piece> pieces = new ArrayList<>();
         int posx, posy;
-        if(color == "black"){
+        if (color.equals("black")) {
             posx = posy = 1;
-        }else{
+        } else {
             posx = 1;
             posy = 8;
         }
@@ -201,15 +192,13 @@ public class ChessDemo {
 
             posx++;
             if (posx == 9) {
-                if(color == "black"){
+                if (color.equals("black")) {
                     posy++;
-                }else{
+                } else {
                     posy--;
                 }
                 posx = 1;
             }
         }
     }
-
-
 }
