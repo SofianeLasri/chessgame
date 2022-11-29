@@ -1,5 +1,7 @@
 package chess;
 
+import java.util.ArrayList;
+
 public class PieceType {
     String type; // 0 = pawn, 1 = tower, 2 = knight, 3 = fool, 4 = queen, 5 = king
 
@@ -17,38 +19,62 @@ public class PieceType {
     }
 
 
-    public int[] PossibleMove() {
-        int[] moves = {0, 0, 0};
+    public ArrayList<int[]> PossibleMove() {
+    	ArrayList<int[]> moves = new ArrayList<int[]>(); //0 = x; 1 = y;
         switch (this.type) {
             case "pawn":
-                moves[0] = 0;
-                moves[1] = 2;
-                moves[2] = 0;
+            	moves.add(new int[] {0,1});
+            	moves.add(new int[] {0,2});
+            	moves.add(new int[] {1,1});
+            	moves.add(new int[] {-1,1});
                 break;
             case "tower":
-                moves[0] = 8;
-                moves[1] = 8;
-                moves[2] = 0;
+            	for(int i = 0; i < 8; i++) {
+	            	moves.add(new int[] {0,i});
+	                moves.add(new int[] {i,0});
+	                moves.add(new int[] {-i,0});
+	                moves.add(new int[] {0,-i});
+            	}
                 break;
             case "knight":
-                moves[0] = 2;
-                moves[1] = 1;
-                moves[2] = 0;
+	            moves.add(new int[] {1,2});
+	            moves.add(new int[] {2,1});
+	            moves.add(new int[] {-1,-2});
+	            moves.add(new int[] {-2,-1});
+	            moves.add(new int[] {-2,1});
+	            moves.add(new int[] {-1,2});
+	            moves.add(new int[] {2,-1});
+	            moves.add(new int[] {1,-2});
                 break;
             case "rook":
-                moves[0] = 0;
-                moves[1] = 0;
-                moves[2] = 8;
+            	for(int i = 0; i < 8; i++) {
+	            	moves.add(new int[] {i,i});
+	                moves.add(new int[] {i,-i});
+	                moves.add(new int[] {-i,-i});
+	                moves.add(new int[] {-i,i});
+            	}
                 break;
             case "queen":
-                moves[0] = 8;
-                moves[1] = 8;
-                moves[2] = 8;
+            	for(int i = 0; i < 8; i++) {
+	            	moves.add(new int[] {i,i});
+	                moves.add(new int[] {i,-i});
+	                moves.add(new int[] {-i,-i});
+	                moves.add(new int[] {-i,i});
+	                moves.add(new int[] {0,i});
+	                moves.add(new int[] {0,-i});
+	                moves.add(new int[] {-i,0});
+	                moves.add(new int[] {i,0});
+            	}
                 break;
             case "king":
-                moves[0] = 1;
-                moves[1] = 1;
-                moves[2] = 1;
+	            moves.add(new int[] {0,1});
+	            moves.add(new int[] {1,1});
+	            moves.add(new int[] {1,0});
+	            moves.add(new int[] {0,-1});
+	            moves.add(new int[] {1,-1});
+	            moves.add(new int[] {-1,-1});
+	            moves.add(new int[] {-1,0});
+	            moves.add(new int[] {-1,1});
                 break;
         }
         return moves;
