@@ -8,7 +8,6 @@ import java.util.List;
 public class ChessDemo {
 
     private static int positions(int x) {
-        System.out.println(x);
         return x * 80 + 40;
     }
 
@@ -157,10 +156,10 @@ public class ChessDemo {
         Player p2 = new Player("white", 16, 0, pieces_black);
 
         // display pieces for black player
-        createPieces("black", p1);
+        createPieces("black", p1, chessBoardGC);
 
         // display pieces for white player
-        createPieces("white", p2);
+        createPieces("white", p2, chessBoardGC);
 
         // display all the layers
         mgrLayers.repaint();
@@ -213,7 +212,7 @@ public class ChessDemo {
         }
     }
 
-    private static void createPieces(String color, Player player) {
+    private static void createPieces(String color, Player player, java.awt.Graphics2D chessBoardGC) {
         List<Piece> pieces = new ArrayList<>();
         int posx, posy;
         if (color.equals("black")) {
@@ -229,7 +228,21 @@ public class ChessDemo {
             player.pieces[posx+(10*posy)] = p;
             BufferedImage piece = chessGraphicTool.createImage(p.getImage(), windowWidth, windowHeight, positions(posx), positions(posy));
             mgrLayers.addLayer(piece);
-
+            System.out.println(p.getType().getType());
+            //Coloration des cases
+            if(p.getType().getType().equals("king")) {
+                RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                chessBoardGC.setRenderingHints(rh);
+                chessBoardGC.setColor(java.awt.Color.GREEN); // remplis la couleur du rectangle dessin�
+                ArrayList<int[]> pos = p.getType().PossibleMove();
+                for(int[] move : pos) {
+                	int posix = move[0];
+                	int posiy = move[1];
+                    chessBoardGC.fillRect(positions(posx+posix)-20, positions(posy+posiy)-20, 80, 80);
+               System.out.println("La position" + positions(posx+posix));
+               }
+            }
+            
             posx++;
             if (posx == 9) {
                 if (color.equals("black")) {

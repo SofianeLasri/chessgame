@@ -28,7 +28,7 @@ public class Piece {
 
     public Piece(String image, String color) {
         super();
-        this.type = new PieceType(image);
+        this.type = new PieceType(image.split("-")[0]);
         this.color = color;
         this.image = ChessGraphicTool.load(ChessDemo.imagePath + image);
     }
