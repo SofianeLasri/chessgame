@@ -230,16 +230,19 @@ public class ChessDemo {
             mgrLayers.addLayer(piece);
             System.out.println(p.getType().getType());
             //Coloration des cases
-            if(p.getType().getType().equals("king")) {
+            if(p.getType().getType().equals("knight")) {
                 RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 chessBoardGC.setRenderingHints(rh);
                 chessBoardGC.setColor(java.awt.Color.GREEN); // remplis la couleur du rectangle dessin�
                 ArrayList<int[]> pos = p.getType().PossibleMove();
                 for(int[] move : pos) {
                 	int posix = move[0];
+                	posix = positions(posx+posix)-20;
                 	int posiy = move[1];
-                    chessBoardGC.fillRect(positions(posx+posix)-20, positions(posy+posiy)-20, 80, 80);
-               System.out.println("La position" + positions(posx+posix));
+                	posiy = positions(posy+posiy)-20;
+                	if(posix >= 100 && posix < 680 && posiy >= 100 && posiy < 680) {
+                    	chessBoardGC.fillRect(posix, posiy, 80, 80);
+                	}
                }
             }
             
