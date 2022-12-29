@@ -36,6 +36,14 @@ public class PieceType {
 	                moves.add(new int[] {0,-i});
             	}
                 break;
+            case "bishop":
+            	for(int i = 0; i < 8; i++) {
+	            	moves.add(new int[] {i,i});
+	                moves.add(new int[] {i,-i});
+	                moves.add(new int[] {-i,i});
+	                moves.add(new int[] {-i,-i});
+            	}
+                break;
             case "knight":
 	            moves.add(new int[] {1,2});
 	            moves.add(new int[] {2,1});

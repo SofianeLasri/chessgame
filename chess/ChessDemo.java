@@ -156,10 +156,10 @@ public class ChessDemo {
         Player p2 = new Player("white", 16, 0, pieces_black);
 
         // display pieces for black player
-        createPieces("black", p1, chessBoardGC);
+        createPieces("black", p1);
 
         // display pieces for white player
-        createPieces("white", p2, chessBoardGC);
+        createPieces("white", p2);
 
         // display all the layers
         mgrLayers.repaint();
@@ -177,6 +177,7 @@ public class ChessDemo {
                 int x = chessMouseEvent.getX();
                 int y = chessMouseEvent.getY();
                 System.out.println("CLICK x=" + x + " y=" + y);
+                displayMoves(new Piece("knight-white.png", "white"), chessBoardGC, x, y);
 
                 // -------
                 // We have to find the right chess piece selected
@@ -212,7 +213,7 @@ public class ChessDemo {
         }
     }
 
-    private static void createPieces(String color, Player player, java.awt.Graphics2D chessBoardGC) {
+    private static void createPieces(String color, Player player) {
         List<Piece> pieces = new ArrayList<>();
         int posx, posy;
         if (color.equals("black")) {
@@ -229,32 +230,29 @@ public class ChessDemo {
             BufferedImage piece = chessGraphicTool.createImage(p.getImage(), windowWidth, windowHeight, positions(posx), positions(posy));
             mgrLayers.addLayer(piece);
             System.out.println(p.getType().getType());
-            //Coloration des cases
-            if(p.getType().getType().equals("knight")) {
-                RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                chessBoardGC.setRenderingHints(rh);
-                chessBoardGC.setColor(java.awt.Color.GREEN); // remplis la couleur du rectangle dessin�
-                ArrayList<int[]> pos = p.getType().PossibleMove();
-                for(int[] move : pos) {
-                	int posix = move[0];
-                	posix = positions(posx+posix)-20;
-                	int posiy = move[1];
-                	posiy = positions(posy+posiy)-20;
-                	if(posix >= 100 && posix < 680 && posiy >= 100 && posiy < 680) {
-                    	chessBoardGC.fillRect(posix, posiy, 80, 80);
-                	}
-               }
-            }
-            
             posx++;
             if (posx == 9) {
-                if (color.equals("black")) {
-                    posy++;
-                } else {
-                    posy--;
-                }
-                posx = 1;
-            }
+                if (color.equals("black")) {posy++;} else {posy--;}
+                posx = 1;}}
+    }
+    
+    private static void displayMoves(Piece p, java.awt.Graphics2D chessBoardGC, int x, int y) {
+        //Coloration des cases
+    	int temp = x - 100;temp %= 80;x -= temp;
+    	temp = y - 100;temp %= 80;y -= temp;
+        RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        chessBoardGC.setRenderingHints(rh);
+        chessBoardGC.setColor(java.awt.Color.GREEN); // remplis la couleur du rectangle dessin�
+        ArrayList<int[]> pos = p.getType().PossibleMove();
+        System.out.println("Taille de l'engin : "+pos.size());
+        for(int[] move : pos) {
+            int posix = move[0];
+            posix = positions(x+posix)-20;
+            int posiy = move[1];
+            posiy = positions(y+posiy)-20;
+            if(posix >= 100 && posix < 680 && posiy >= 100 && posiy < 680) {
+            	chessBoardGC.fillRect(posix-1, posiy-1, 79, 79);
+           }
         }
     }
 }
