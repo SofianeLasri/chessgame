@@ -6,33 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChessDemo {
-
-    private static int positions(int x) {
-        return x * 80 + 40;
-    }
-
     public static String imagePath = "./images/";
-
-    public static List<String> piecesList = new ArrayList<>() {
-        {
-            add("rook");
-            add("knight");
-            add("bishop");
-            add("queen");
-            add("king");
-            add("bishop");
-            add("knight");
-            add("rook");
-            add("pawn");
-            add("pawn");
-            add("pawn");
-            add("pawn");
-            add("pawn");
-            add("pawn");
-            add("pawn");
-            add("pawn");
-        }
-    };
 
     public static int windowWidth = 840;
     public static int windowHeight = 840;
@@ -113,53 +87,14 @@ public class ChessDemo {
         // create a dedicated layer and copy the new pawn image at the right coordinates 
         xorigin = 510;
         yorigin = 330;
-        BufferedImage blackPawnLayer = chessGraphicTool.createImage(blackPawnImage,80, 80, xorigin, yorigin);
+        BufferedImage blackPawnLayer = chessGraphicTool.createImage(blackPawnImage, 80, 80, xorigin, yorigin);
 
 //	    // add the new layers
 //	    mgrLayers.addLayer(whitePawnLayer);
 //	    mgrLayers.addLayer(blackPawnLayer);
 
-        // adding pieces to its list
-        ArrayList<String> blackChessPiecesImages = new ArrayList<>();
-        ArrayList<String> whiteChessPiecesImages = new ArrayList<>();
-
-        blackChessPiecesImages.add("rook-black.png");
-        blackChessPiecesImages.add("knight-black.png");
-        blackChessPiecesImages.add("bishop-black.png");
-        blackChessPiecesImages.add("queen-black.png");
-        blackChessPiecesImages.add("king-black.png");
-        blackChessPiecesImages.add("bishop-black.png");
-        blackChessPiecesImages.add("knight-black.png");
-        blackChessPiecesImages.add("rook-black.png");
-
-        whiteChessPiecesImages.add("rook-white.png");
-        whiteChessPiecesImages.add("knight-white.png");
-        whiteChessPiecesImages.add("bishop-white.png");
-        whiteChessPiecesImages.add("queen-white.png");
-        whiteChessPiecesImages.add("king-white.png");
-        whiteChessPiecesImages.add("bishop-white.png");
-        whiteChessPiecesImages.add("knight-white.png");
-        whiteChessPiecesImages.add("rook-white.png");
-
-        for (int i = 8; i > 0; i--) {
-            blackChessPiecesImages.add("pawn-black.png");
-        }
-
-        for (int i = 8; i > 0; i--) {
-            whiteChessPiecesImages.add("pawn-white.png");
-        }
-
-        Piece pieces_white[] = new Piece[90];
-        Piece pieces_black[] = new Piece[90];
-        
-        Player p1 = new Player("black", 16, 0, pieces_white);
-        Player p2 = new Player("white", 16, 0, pieces_black);
-
-        // display pieces for black player
-        createPieces("black", p1);
-
-        // display pieces for white player
-        createPieces("white", p2);
+        // New game !
+        Game game = new Game();
 
         // display all the layers
         mgrLayers.repaint();
@@ -177,7 +112,7 @@ public class ChessDemo {
                 int x = chessMouseEvent.getX();
                 int y = chessMouseEvent.getY();
                 System.out.println("CLICK x=" + x + " y=" + y);
-                displayMoves(new Piece("knight-white.png", "white"), chessBoardGC, x, y);
+                //displayMoves(new Piece("knight-white.png", "white"), chessBoardGC, x, y);
 
                 // -------
                 // We have to find the right chess piece selected
@@ -210,49 +145,6 @@ public class ChessDemo {
                 // refresh the display with the changes
                 mgrLayers.repaint();
             }
-        }
-    }
-
-    private static void createPieces(String color, Player player) {
-        List<Piece> pieces = new ArrayList<>();
-        int posx, posy;
-        if (color.equals("black")) {
-            posx = posy = 1;
-        } else {
-            posx = 1;
-            posy = 8;
-        }
-
-        for (String pieceName : piecesList) {
-            Piece p = new Piece(pieceName + "-" + color + ".png", color);
-            pieces.add(p);
-            player.pieces[posx+(10*posy)] = p;
-            BufferedImage piece = chessGraphicTool.createImage(p.getImage(), windowWidth, windowHeight, positions(posx), positions(posy));
-            mgrLayers.addLayer(piece);
-            System.out.println(p.getType().getType());
-            posx++;
-            if (posx == 9) {
-                if (color.equals("black")) {posy++;} else {posy--;}
-                posx = 1;}}
-    }
-    
-    private static void displayMoves(Piece p, java.awt.Graphics2D chessBoardGC, int x, int y) {
-        //Coloration des cases
-    	int temp = x - 100;temp %= 80;x -= temp;
-    	temp = y - 100;temp %= 80;y -= temp;
-        RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        chessBoardGC.setRenderingHints(rh);
-        chessBoardGC.setColor(java.awt.Color.GREEN); // remplis la couleur du rectangle dessin�
-        ArrayList<int[]> pos = p.getType().PossibleMove();
-        System.out.println("Taille de l'engin : "+pos.size());
-        for(int[] move : pos) {
-            int posix = move[0];
-            posix = positions(x+posix)-20;
-            int posiy = move[1];
-            posiy = positions(y+posiy)-20;
-            if(posix >= 100 && posix < 680 && posiy >= 100 && posiy < 680) {
-            	chessBoardGC.fillRect(posix-1, posiy-1, 79, 79);
-           }
         }
     }
 }
