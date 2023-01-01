@@ -6,6 +6,7 @@ import java.awt.event.MouseMotionListener;
 public class ChessMouseEvent implements MouseListener, MouseMotionListener {
 
 	private boolean drag = false;
+	private boolean clicked = false;
 	private int x = 0;
 	private int y = 0;
 
@@ -41,6 +42,12 @@ public class ChessMouseEvent implements MouseListener, MouseMotionListener {
 		this.drag = false;
 		return status;
 	}
+
+	public boolean isClicked(){
+		boolean status = clicked;
+		this.clicked = false;
+		return status;
+	}
 	
 	// ============================ Listener implementation =========================
 
@@ -50,6 +57,9 @@ public class ChessMouseEvent implements MouseListener, MouseMotionListener {
 	 * @param[in] mouse event
 	 */
 	public void mouseClicked(MouseEvent mouse) {
+		clicked = true;
+		x = mouse.getX();
+		y = mouse.getY();
 	}
 
 

@@ -18,6 +18,7 @@ public class ChessTable {
     private Graphics2D chessBoardGC;
     private BufferedImage cellsHighlight;
     private Graphics2D cellsHighlightGC;
+    private final BufferedImage emptyLayer = new BufferedImage(ChessDemo.windowWidth, ChessDemo.windowHeight, BufferedImage.TYPE_INT_ARGB);
 
     private ArrayList<ArrayList> pieceRows;
 
@@ -51,7 +52,7 @@ public class ChessTable {
         pieceRows = new ArrayList();
         for (int x = 1; x <= tableCellNumber; x++) {
             // On en profite pour pre-remplir la liste des pièces
-            ArrayList rowColumns = new ArrayList<>();
+            ArrayList rowColumns = new ArrayList<Piece>();
             for (int y = 1; y <= tableCellNumber; y++) {
                 if ((x + y) % 2 == 0) {
                     drawCell(x, y, Color.BLACK);
@@ -91,6 +92,10 @@ public class ChessTable {
         );
     }
 
+    public void clearHighLights() {
+        cellsHighlight.setData(emptyLayer.getRaster());
+    }
+
     public void placePiece(int cellColumnNum, int cellRowNum, Piece piece) {
         int piecePosX = xOrigin + ((cellColumnNum - 1) * cellWidth) + (cellWidth - Piece.imageSize) / 2;
         int piecePosY = yOrigin + ((cellRowNum - 1) * cellWidth) + (cellWidth - Piece.imageSize) / 2;
@@ -105,7 +110,55 @@ public class ChessTable {
                 )
         );
         ChessDemo.mgrLayers.addLayer(piece.getLayeredImage());
+        piece.setPos(cellColumnNum, cellRowNum);
 
         pieceRows.get((cellRowNum - 1)).set((cellColumnNum - 1), piece);
+    }
+
+    public Piece getPieceAtCoordinate(int x, int y) {
+        // On va déterminer de quelle cellule il s'agit
+        int cellColumnNum = -1, cellRowNum = -1;
+
+        // Ici on calcule la taille de la marge de gauche
+        int calcWidth = (ChessDemo.windowWidth - (cellWidth * tableCellNumber)) / 2;
+        if (x > calcWidth) {
+            // On incrémente la largeur pour chaque cellule
+            for (int i = 0; i < tableCellNumber; i++) {
+                calcWidth += cellWidth;
+
+                // On a trouvé sa colonne
+                if (x < calcWidth) {
+                    cellColumnNum = i;
+                    break;
+                }
+            }
+        }
+        if(cellColumnNum == -1){
+            return null;
+        }
+
+        // Pareil pour les lignes maintenant
+        int calcHeight = (ChessDemo.windowHeight - (cellWidth * tableCellNumber)) / 2 + ChessDemo.titleBarHeight;
+        if (y > calcHeight) {
+            // On incrémente la largeur pour chaque cellule
+            for (int j = 0; j < tableCellNumber; j++) {
+                calcHeight += cellWidth;
+
+                if (y < calcHeight) {
+                    cellRowNum = j;
+                    break;
+                }
+            }
+        }
+
+        if(cellRowNum == -1){
+            return null;
+        }
+
+        Piece piece = (Piece) pieceRows.get(cellRowNum).get(cellColumnNum);
+        if(piece != null) {
+            return piece;
+        }
+        return null;
     }
 }

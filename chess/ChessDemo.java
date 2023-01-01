@@ -13,6 +13,7 @@ public class ChessDemo {
     public static LayerManagement mgrLayers = new LayerManagement();
     public static RenderingHints rh;
     public static ChessTable table;
+    public static int titleBarHeight;
 
     public static void main(String[] args) {
 
@@ -20,6 +21,7 @@ public class ChessDemo {
         mgrLayers.setPreferredSize(new Dimension(windowWidth, windowHeight));
 
         ChessGUI.showOnFrame(mgrLayers, "Comment r�ussir les �checs");
+        titleBarHeight = ChessGUI.frame.getInsets().top;
         ChessMouseEvent chessMouseEvent = ChessGUI.getChessMouseEvent();
         rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         BufferedImage emptyLayer = new BufferedImage(windowWidth, windowHeight, BufferedImage.TYPE_INT_ARGB);
@@ -84,10 +86,21 @@ public class ChessDemo {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if (chessMouseEvent.drag()) {
+
+            if(chessMouseEvent.isClicked()){
                 int x = chessMouseEvent.getX();
                 int y = chessMouseEvent.getY();
                 System.out.println("CLICK x=" + x + " y=" + y);
+
+                // Ici on fait l'appel vers Game pour déterminer le jeu
+                game.playerClicked(x, y);
+                mgrLayers.repaint();
+            }
+
+            /*if (chessMouseEvent.drag()) {
+                int x = chessMouseEvent.getX();
+                int y = chessMouseEvent.getY();
+                System.out.println("DRAG x=" + x + " y=" + y);
                 //displayMoves(new Piece("knight-white.png", "white"), chessBoardGC, x, y);
 
                 // -------
@@ -120,7 +133,7 @@ public class ChessDemo {
 
                 // refresh the display with the changes
                 mgrLayers.repaint();
-            }
+            }*/
         }
     }
 }

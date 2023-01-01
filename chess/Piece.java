@@ -18,25 +18,37 @@ public class Piece {
     private BufferedImage layeredImage;
     private String color;
     public static final int imageSize = 40;
+    private int posX = 0;
+    private int posY = 0;
 
     public PieceType getType() {
         return type;
     }
+
     public void setType(PieceType type) {
         this.type = type;
     }
+
     public BufferedImage getImage() {
         return image;
     }
-    public String getColor(){
+
+    public String getColor() {
         return this.color;
     }
-    public void setImage(BufferedImage image) {
-        this.image = image;
-    } 
-    public void setColor(String color) {
-		this.color = color;
-	}
+
+    public int getPosX() {
+        return posX;
+    }
+
+    public int getPosY() {
+        return posY;
+    }
+
+    public void setPos(int posX, int posY) {
+        this.posX = posX;
+        this.posY = posY;
+    }
 
     public Piece(String image, String color) {
         super();
