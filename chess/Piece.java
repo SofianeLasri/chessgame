@@ -1,7 +1,6 @@
 package chess;
 
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 
 public class Piece {
     private PieceType type;
@@ -20,6 +19,7 @@ public class Piece {
     public static final int imageSize = 40;
     private int posX = 0;
     private int posY = 0;
+    private boolean isDown = false;
 
     public PieceType getType() {
         return type;
@@ -48,6 +48,14 @@ public class Piece {
     public void setPos(int posX, int posY) {
         this.posX = posX;
         this.posY = posY;
+    }
+
+    public void isNowDown() {
+        isDown = true;
+    }
+
+    public boolean isDown() {
+        return isDown;
     }
 
     public Piece(String image, String color) {

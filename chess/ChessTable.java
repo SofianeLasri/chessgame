@@ -100,23 +100,65 @@ public class ChessTable {
         int piecePosX = xOrigin + ((cellColumnNum - 1) * cellWidth) + (cellWidth - Piece.imageSize) / 2;
         int piecePosY = yOrigin + ((cellRowNum - 1) * cellWidth) + (cellWidth - Piece.imageSize) / 2;
 
-        piece.setLayeredImage(
-                chessGraphicTool.createImage(
-                        piece.getImage(),
-                        ChessDemo.windowWidth,
-                        ChessDemo.windowHeight,
-                        piecePosX,
-                        piecePosY
-                )
+        BufferedImage tempImage = chessGraphicTool.createImage(
+                piece.getImage(),
+                ChessDemo.windowWidth,
+                ChessDemo.windowHeight,
+                piecePosX,
+                piecePosY
         );
-        ChessDemo.mgrLayers.addLayer(piece.getLayeredImage());
+        ChessDemo.mgrLayers.addLayer(tempImage);
+        piece.setLayeredImage(tempImage);
         piece.setPos(cellColumnNum, cellRowNum);
 
         pieceRows.get((cellRowNum - 1)).set((cellColumnNum - 1), piece);
     }
 
+    public void movePiece(int cellColumnNum, int cellRowNum, Piece piece){
+        // On déréférence la pièce de sa position dans la liste des pièces
+        pieceRows.get((piece.getPosY())).set((piece.getPosX()), null);
+        // On lui donne sa nouvelle position
+        piece.setPos(cellColumnNum + 1, cellRowNum + 1);
+
+        // On check si on avait pas une pièce à ces coordonnées
+        System.out.println("oldPieceCellX:" + cellColumnNum + " oldPieceCellY:" + cellRowNum);
+        Piece oldPiece = (Piece) pieceRows.get(cellRowNum).get(cellColumnNum);
+        if(oldPiece != null) {
+            oldPiece.isNowDown();
+            oldPiece.getLayeredImage().setData(emptyLayer.getRaster());
+            oldPiece.setPos(-1, -1);
+        }
+
+        // On déplace l'image de la pièce
+        piece.getLayeredImage().setData(emptyLayer.getRaster()); // On l'efface pour la redessiner juste en dessous
+
+        int piecePosX = xOrigin + (cellColumnNum * cellWidth) + (cellWidth - Piece.imageSize) / 2;
+        int piecePosY = yOrigin + (cellRowNum * cellWidth) + (cellWidth - Piece.imageSize) / 2;
+        Graphics2D gcb = (Graphics2D) piece.getLayeredImage().getGraphics(); // get graphic context
+        gcb.drawImage(piece.getLayeredImage(), piecePosX, piecePosY, null); // copy the piece in the blackPawn graphic context at the right place
+
+        // Enfin, on référencie la nouvelle pièce dans la cellule souhaitée
+        pieceRows.get((cellRowNum)).set((cellColumnNum), piece);
+
+        System.out.println("L'ancienne pièce a été masquée. (je crois)");
+    }
+
     public Piece getPieceAtCoordinate(int x, int y) {
         // On va déterminer de quelle cellule il s'agit
+        int[] coordinates = getCellAtCoordinates(x, y);
+
+        if(coordinates != null){
+            System.out.println("cellX:" + coordinates[0] + " cellY:" + coordinates[1]);
+
+            Piece piece = (Piece) pieceRows.get(coordinates[1]).get(coordinates[0]);
+            if(piece != null) {
+                return piece;
+            }
+        }
+        return null;
+    }
+
+    public int[] getCellAtCoordinates(int x, int y){
         int cellColumnNum = -1, cellRowNum = -1;
 
         // Ici on calcule la taille de la marge de gauche
@@ -155,10 +197,6 @@ public class ChessTable {
             return null;
         }
 
-        Piece piece = (Piece) pieceRows.get(cellRowNum).get(cellColumnNum);
-        if(piece != null) {
-            return piece;
-        }
-        return null;
+        return new int[]{cellColumnNum, cellRowNum};
     }
 }

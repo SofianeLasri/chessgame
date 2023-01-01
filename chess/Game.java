@@ -37,15 +37,35 @@ public class Game {
         p2 = new Player("white");
     }
 
-    public void playerClicked(int x, int y){
+    public void playerClicked(int x, int y) {
         ChessDemo.table.clearHighLights();
-        // Faudrait faire le système de tour par tour pour savoir qui a cliqué
-        Piece selectedPiece = ChessDemo.table.getPieceAtCoordinate(x, y);
 
-        if(selectedPiece != null){
-            ChessDemo.table.highLightCell(selectedPiece.getPosX(), selectedPiece.getPosY(), Color.GREEN);
+        // Faudrait faire le système de tour par tour pour savoir qui a cliqué
+        Piece oldSelectedPiece = selectedPiece;
+
+        selectedPiece = ChessDemo.table.getPieceAtCoordinate(x, y);
+        if (oldSelectedPiece == null) {
+            // On avait pas de pièce précédemment cliquée
+            if (selectedPiece != null) {
+                ChessDemo.table.highLightCell(selectedPiece.getPosX(), selectedPiece.getPosY(), Color.GREEN);
+            } else {
+                System.out.println("Ceci n'est pas une pièce.");
+            }
         } else {
-            System.out.println("Le clique était en dehors de la table de jeu.");
+            if(oldSelectedPiece != selectedPiece){
+                // On va déplacer la pièce actuelle
+                int[] cellCordinates = ChessDemo.table.getCellAtCoordinates(x, y);
+                if (cellCordinates != null) {
+                    ChessDemo.table.movePiece(cellCordinates[0], cellCordinates[1], oldSelectedPiece);
+                    selectedPiece = null;
+                } else {
+                    System.out.println("Le clique était en dehors de la table de jeu.");
+                }
+            }else{
+                // On la déselectionne
+                System.out.println("OLD:" + oldSelectedPiece.getPosX()+";"+oldSelectedPiece.getPosY()+" - NEW:"+selectedPiece.getPosX()+";"+selectedPiece.getPosY());
+                selectedPiece = null;
+            }
         }
     }
 }
