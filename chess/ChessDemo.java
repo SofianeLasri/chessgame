@@ -2,8 +2,6 @@ package chess;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ChessDemo {
     public static String imagePath = "./images/";
@@ -13,6 +11,7 @@ public class ChessDemo {
 
     public static ChessGraphicTool chessGraphicTool = new ChessGraphicTool();
     public static LayerManagement mgrLayers = new LayerManagement();
+    public static RenderingHints rh;
 
     public static void main(String[] args) {
 
@@ -21,7 +20,7 @@ public class ChessDemo {
 
         ChessGUI.showOnFrame(mgrLayers, "Comment r�ussir les �checs");
         ChessMouseEvent chessMouseEvent = ChessGUI.getChessMouseEvent();
-        RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         BufferedImage emptyLayer = new BufferedImage(windowWidth, windowHeight, BufferedImage.TYPE_INT_ARGB);
 
         // ===============
@@ -37,7 +36,8 @@ public class ChessDemo {
         foregroundGC.fill3DRect(0, 0, windowWidth, windowHeight, true);
 
         //drawing the chess board
-        BufferedImage chessBoard = new BufferedImage(windowWidth, windowHeight, BufferedImage.TYPE_INT_ARGB);
+        new ChessTable(mgrLayers);
+        /*BufferedImage chessBoard = new BufferedImage(windowWidth, windowHeight, BufferedImage.TYPE_INT_ARGB);
         mgrLayers.addLayer(chessBoard);
         java.awt.Graphics2D chessBoardGC = (Graphics2D) chessBoard.getGraphics();
         chessBoardGC.setRenderingHints(rh);
@@ -61,7 +61,7 @@ public class ChessDemo {
                 }
                 chessBoardGC.fillRect(x, y, 80, 80);
             }
-        }
+        }*/
 
         // create a builder layer for the chess piece
         // and load two images pawns.
@@ -90,11 +90,11 @@ public class ChessDemo {
         BufferedImage blackPawnLayer = chessGraphicTool.createImage(blackPawnImage, 80, 80, xorigin, yorigin);
 
 //	    // add the new layers
-//	    mgrLayers.addLayer(whitePawnLayer);
-//	    mgrLayers.addLayer(blackPawnLayer);
+	    // mgrLayers.addLayer(whitePawnLayer);
+	    // mgrLayers.addLayer(blackPawnLayer);
 
         // New game !
-        Game game = new Game();
+        //Game game = new Game();
 
         // display all the layers
         mgrLayers.repaint();
