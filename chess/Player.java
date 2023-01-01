@@ -46,9 +46,9 @@ public class Player {
         for (String pieceName : Game.piecesList) {
             Piece p = new Piece(pieceName + "-" + color + ".png", color);
             pieces.add(p);
-            BufferedImage piece = chessGraphicTool.createImage(p.getImage(), ChessDemo.windowWidth, ChessDemo.windowHeight, positions(posx), positions(posy));
-            ChessDemo.mgrLayers.addLayer(piece);
-            System.out.println(p.getType().getType());
+
+            ChessDemo.table.placePiece(posx, posy, p);
+
             posx++;
             if (posx == 9) {
                 if (color.equals("black")) {

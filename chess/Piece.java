@@ -1,11 +1,23 @@
 package chess;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 
 public class Piece {
     private PieceType type;
     private BufferedImage image;
+
+    public BufferedImage getLayeredImage() {
+        return layeredImage;
+    }
+
+    public void setLayeredImage(BufferedImage layeredImage) {
+        this.layeredImage = layeredImage;
+    }
+
+    private BufferedImage layeredImage;
     private String color;
+    public static final int imageSize = 40;
 
     public PieceType getType() {
         return type;

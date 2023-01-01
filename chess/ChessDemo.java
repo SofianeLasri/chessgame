@@ -12,6 +12,7 @@ public class ChessDemo {
     public static ChessGraphicTool chessGraphicTool = new ChessGraphicTool();
     public static LayerManagement mgrLayers = new LayerManagement();
     public static RenderingHints rh;
+    public static ChessTable table;
 
     public static void main(String[] args) {
 
@@ -36,32 +37,7 @@ public class ChessDemo {
         foregroundGC.fill3DRect(0, 0, windowWidth, windowHeight, true);
 
         //drawing the chess board
-        new ChessTable(mgrLayers);
-        /*BufferedImage chessBoard = new BufferedImage(windowWidth, windowHeight, BufferedImage.TYPE_INT_ARGB);
-        mgrLayers.addLayer(chessBoard);
-        java.awt.Graphics2D chessBoardGC = (Graphics2D) chessBoard.getGraphics();
-        chessBoardGC.setRenderingHints(rh);
-
-        boolean pair_impair = false; // v�rifie si la case est paire ou impaire pour savoir comment la colorier
-        int line = 0; // v�rifie sur quelle ligne on est pour le d�calage des couleurs
-        for (int y = 100; y < 740; y += 80) { // lines
-            for (int x = 100; x < 740; x += 80) { // columns
-                // chessBoardGC.draw3DRect(x,y,80,80,true); // xcenter, ycenter, windowWidth=80 , windowHeight=80
-                if (pair_impair) {
-                    pair_impair = false;
-                    chessBoardGC.setColor(java.awt.Color.WHITE); // remplis la couleur du rectangle dessin�
-                } else {
-                    pair_impair = true;
-                    chessBoardGC.setColor(java.awt.Color.BLACK); // remplis la couleur du rectangle dessin�
-                }
-                line++;
-                if (line == 8) {
-                    pair_impair = !pair_impair;
-                    line = 0;
-                }
-                chessBoardGC.fillRect(x, y, 80, 80);
-            }
-        }*/
+        table = new ChessTable(mgrLayers);
 
         // create a builder layer for the chess piece
         // and load two images pawns.
@@ -94,7 +70,7 @@ public class ChessDemo {
 	    // mgrLayers.addLayer(blackPawnLayer);
 
         // New game !
-        //Game game = new Game();
+        Game game = new Game();
 
         // display all the layers
         mgrLayers.repaint();
