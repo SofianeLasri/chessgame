@@ -21,23 +21,24 @@ public class PieceType {
 
     public ArrayList<int[]> PossibleMove() {
     	ArrayList<int[]> moves = new ArrayList<int[]>(); //0 = x; 1 = y;
-        switch (this.type) {
+		System.out.println(this.type);
+		switch (this.type) {
             case "pawn":
             	moves.add(new int[] {0,1});
             	moves.add(new int[] {0,2});
             	moves.add(new int[] {1,1});
             	moves.add(new int[] {-1,1});
                 break;
-            case "tower":
-            	for(int i = 0; i < 8; i++) {
-	            	moves.add(new int[] {0,i});
+            case "rook":
+            	for(int i = 1; i < 8; i++) {
+					moves.add(new int[] {0,i});
 	                moves.add(new int[] {i,0});
 	                moves.add(new int[] {-i,0});
 	                moves.add(new int[] {0,-i});
             	}
                 break;
             case "bishop":
-            	for(int i = 0; i < 8; i++) {
+            	for(int i = 1; i < 8; i++) {
 	            	moves.add(new int[] {i,i});
 	                moves.add(new int[] {i,-i});
 	                moves.add(new int[] {-i,i});
@@ -54,16 +55,8 @@ public class PieceType {
 	            moves.add(new int[] {2,-1});
 	            moves.add(new int[] {1,-2});
                 break;
-            case "rook":
-            	for(int i = 0; i < 8; i++) {
-	            	moves.add(new int[] {i,i});
-	                moves.add(new int[] {i,-i});
-	                moves.add(new int[] {-i,-i});
-	                moves.add(new int[] {-i,i});
-            	}
-                break;
             case "queen":
-            	for(int i = 0; i < 8; i++) {
+            	for(int i = 1; i < 8; i++) {
 	            	moves.add(new int[] {i,i});
 	                moves.add(new int[] {i,-i});
 	                moves.add(new int[] {-i,-i});

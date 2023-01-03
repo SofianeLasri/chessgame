@@ -47,7 +47,8 @@ public class Game {
         if (oldSelectedPiece == null) {
             // On avait pas de pièce précédemment cliquée
             if (selectedPiece != null) {
-                ChessDemo.table.highLightCell(selectedPiece.getPosX(), selectedPiece.getPosY(), Color.GREEN);
+                ChessDemo.table.highLightCell(selectedPiece.getPosX(), selectedPiece.getPosY(), Color.YELLOW);
+                getMoves(selectedPiece);
             } else {
                 System.out.println("Ceci n'est pas une pièce.");
             }
@@ -66,6 +67,13 @@ public class Game {
                 System.out.println("OLD:" + oldSelectedPiece.getPosX()+";"+oldSelectedPiece.getPosY()+" - NEW:"+selectedPiece.getPosX()+";"+selectedPiece.getPosY());
                 selectedPiece = null;
             }
+        }
+    }
+
+    public void getMoves(Piece piece){
+        ArrayList<int[]> array = piece.getType().PossibleMove();
+        for(int[] move : array){
+            ChessDemo.table.highLightCell(piece.getPosX() + move[0], piece.getPosY() + move[1], Color.GREEN);
         }
     }
 }
