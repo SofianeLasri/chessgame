@@ -40,6 +40,7 @@ public class ChessTable {
         cellsHighlightGC = (Graphics2D) cellsHighlight.getGraphics();
         cellsHighlightGC.setRenderingHints(ChessDemo.rh);
 
+
         // On calcule l'origine de la table d'échec, basé sur le nombre de cellules et de leur taille
         xOrigin = round((ChessDemo.windowWidth - (tableCellNumber * cellWidth)) / 2);
         yOrigin = round((ChessDemo.windowHeight - (tableCellNumber * cellWidth)) / 2);
