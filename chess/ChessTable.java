@@ -144,6 +144,7 @@ public class ChessTable {
         System.out.println("L'ancienne pièce a été masquée. (je crois)");
     }
 
+    /**Récupère la pièce aux coordonnées du clic de la souris**/
     public Piece getPieceAtCoordinate(int x, int y) {
         // On va déterminer de quelle cellule il s'agit
         int[] coordinates = getCellAtCoordinates(x, y);
@@ -159,6 +160,12 @@ public class ChessTable {
         return null;
     }
 
+    /****/
+    public Piece getPieceAtCellCoordinates(int PieceRowNum, int PieceColNum){
+        return (Piece) pieceRows.get(PieceColNum-1).get(PieceRowNum-1);
+    }
+
+    /**Récupère les positions de la cellule aux coordonnées du clic de la souris**/
     public int[] getCellAtCoordinates(int x, int y){
         int cellColumnNum = -1, cellRowNum = -1;
 

@@ -73,7 +73,18 @@ public class Game {
     public void getMoves(Piece piece){
         ArrayList<int[]> array = piece.getType().PossibleMove();
         for(int[] move : array){
-            ChessDemo.table.highLightCell(piece.getPosX() + move[0], piece.getPosY() + move[1], Color.GREEN);
+            int movex = piece.getPosX() + move[0];
+            int movey = piece.getPosY() + move[1];
+            if(ChessDemo.table.getPieceAtCellCoordinates(movex, movey) == null){
+                if(/*&&*/ movex > 0 && movex <= 8 && movey > 0 && movey <= 8){
+                    System.out.println(movex + " " + movey);
+                    ChessDemo.table.highLightCell(movex, movey, Color.GREEN);
+                }else{
+                    System.out.println("Pas possible de faire : " + movex + ", " + movey);
+                }
+            }else{
+                System.out.println("Les coordonnées : " + movex +", " + movey);
+            }
         }
     }
 }
