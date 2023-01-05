@@ -75,15 +75,15 @@ public class Game {
         for(int[] move : array){
             int movex = piece.getPosX() + move[0];
             int movey = piece.getPosY() + move[1];
-            if(ChessDemo.table.getPieceAtCellCoordinates(movex, movey) == null){
-                if(/*&&*/ movex > 0 && movex <= 8 && movey > 0 && movey <= 8){
-                    System.out.println(movex + " " + movey);
+            if(/*&&*/ movex > 0 && movex <= 8 && movey > 0 && movey <= 8){
+                if(ChessDemo.table.getPieceAtCellCoordinates(movex, movey) == null){
+                    System.out.println("On fait faire ce move : " +movex + " " + movey);
                     ChessDemo.table.highLightCell(movex, movey, Color.GREEN);
                 }else{
-                    System.out.println("Pas possible de faire : " + movex + ", " + movey);
+                    System.out.println("Piece existante en : " + movex + ", " + movey);
                 }
             }else{
-                System.out.println("Les coordonnées : " + movex +", " + movey);
+                System.out.println("Move en dehors des limites : " + movex +", " + movey);
             }
         }
     }
