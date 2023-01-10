@@ -268,7 +268,7 @@ public class ChessTable {
      * @param the_move  le move qu'on veut faire
      * @return si c'est possible ou non
      */
-    public boolean isOnForbiddenAxis(ArrayList<int[]> forbidden, int[] the_move) {
+    public boolean isNotOnForbiddenAxis(ArrayList<int[]> forbidden, int[] the_move) {
         for (int[] move : forbidden) {
             int this_move[] = new int[2];
             this_move[0] = (move[0] == 0) ? 0 : move[0] / abs(move[0]);

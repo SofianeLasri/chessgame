@@ -50,7 +50,7 @@ public class Game {
                 System.out.println("Ceci n'est pas une pièce.");
             }
         } else {
-            if(oldSelectedPiece != selectedPiece){
+            if (oldSelectedPiece != selectedPiece) {
                 // On va déplacer la pièce actuelle
                 int[] cellCordinates = ChessDemo.table.getCellAtScreenCoordinates(x, y);
                 if (cellCordinates != null) {
@@ -59,33 +59,45 @@ public class Game {
                 } else {
                     System.out.println("Le clique était en dehors de la table de jeu.");
                 }
-            }else{
+            } else {
                 // On la déselectionne
-                System.out.println("OLD:" + oldSelectedPiece.getPosX()+";"+oldSelectedPiece.getPosY()+" - NEW:"+selectedPiece.getPosX()+";"+selectedPiece.getPosY());
+                System.out.println("OLD:" + oldSelectedPiece.getPosX() + ";" + oldSelectedPiece.getPosY() + " - NEW:" + selectedPiece.getPosX() + ";" + selectedPiece.getPosY());
                 selectedPiece = null;
             }
         }
     }
 
-    public void getMovesPossible(Piece p){
+    public void getMovesPossible(Piece p) {
+        ArrayList<int[]> array_returned = new ArrayList<>();
+
         ArrayList<int[]> array = p.getType().PossibleMove();
 
         //En gros, ici on gère les 8 axes du tableau
         //On veut faire en sorte que le système retienne à partir de quelle distance un move n'est plus possible
         ArrayList<int[]> forbiddenAxes = new ArrayList<>();
-        for(int[] move : array){
-            if(p.getColor() == "white"){move[1] = -move[1];} //Pour que les blancs aillent vers le haut
+        for (int[] move : array) {
+            if (p.getColor() == "white") {
+                move[1] = -move[1];
+            } //Pour que les blancs aillent vers le haut
+            int this_move[] = new int[2];
             int movex = p.getPosX() + move[0];
+            this_move[0] = movex;
             int movey = p.getPosY() + move[1];
-            if(/*&&*/ movex > 0 && movex <= 8 && movey > 0 && movey <= 8){
+            this_move[1] = movey;
+            if (/*&&*/ movex > 0 && movex <= 8 && movey > 0 && movey <= 8) {
                 Piece adverse = ChessDemo.table.getPieceAtCellCoordinates(movex, movey);
-                if(adverse == null){
-                    if(ChessDemo.table.isOnForbiddenAxis(forbiddenAxes, move)){
+                if (ChessDemo.table.isNotOnForbiddenAxis(forbiddenAxes, move)) {
+                    if (adverse == null) {
                         ChessDemo.table.highLightCell(movex, movey, Color.GREEN);
+                        array_returned.add(this_move);
+                    } else {
+                        if (adverse.getColor() != p.getColor()) {
+                            ChessDemo.table.highLightCell(movex, movey, Color.RED);
+                            array_returned.add(this_move);
+                        }
+                        int[] distance = ChessDemo.table.getDistanceBetweenPieces(p, adverse);
+                        forbiddenAxes.add(distance);
                     }
-                }else{
-                    int[] distance = ChessDemo.table.getDistanceBetweenPieces(p, adverse);
-                    forbiddenAxes.add(distance);
                 }
             }
         }
