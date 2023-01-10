@@ -3,7 +3,7 @@ package chess;
 import java.util.ArrayList;
 
 public class PieceType {
-    String type; // 0 = pawn, 1 = tower, 2 = knight, 3 = fool, 4 = queen, 5 = king
+    String type;
 
     public String getType() {
         return type;
