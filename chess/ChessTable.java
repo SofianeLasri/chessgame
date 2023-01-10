@@ -106,6 +106,9 @@ public class ChessTable {
         );
     }
 
+    /**
+     * Supprimer les mises en évidences de cellules
+     */
     public void clearHighLights() {
         cellsHighlight.setData(emptyLayer.getRaster());
     }
@@ -243,7 +246,14 @@ public class ChessTable {
         return null;
     }
 
-    public int[] getDistanceBetweenPieces(Piece p1,Piece p2){
+    /**
+     * Permet de calculer la distance entre deux pièces
+     *
+     * @param p1 Pièce 1
+     * @param p2 Pièce 2
+     * @return Distance entre les deux pièces
+     */
+    public int[] getDistanceBetweenPieces(Piece p1, Piece p2) {
         int[] array = new int[2];
         array[0] = p2.getPosX() - p1.getPosX();
         array[1] = p2.getPosY() - p1.getPosY();
@@ -251,22 +261,29 @@ public class ChessTable {
         return array;
     }
 
-    public boolean isOnForbiddenAxis(ArrayList<int[]> forbidden, int[] the_move){
-            for(int[] move : forbidden) {
-                int this_move[] = new int[2];
-                this_move[0] = (move[0] == 0) ? 0 : move[0] / abs(move[0]);
-                this_move[1] = (move[1] == 0) ? 0 : move[1] / abs(move[1]);
-                for (int i = 1; i < 8; i++) {
-                    int[] nextMove = new int[2];
-                    nextMove[0] = this_move[0] * i + move[0];
-                    nextMove[1] = this_move[1] * i + move[1];
-                    System.out.println("On a x : "+the_move[0]+"\tet y : "+the_move[1]);
-                    System.out.println("On va faire x : "+nextMove[0]+"\tet y : "+nextMove[1]);
-                    if (the_move[0] == nextMove[0] && the_move[1] == nextMove[1]) {
-                        return false;
-                    }
+    /**
+     * Vérifie si on est sur un axe interdit
+     *
+     * @param forbidden les moves interdits déjà donnés
+     * @param the_move  le move qu'on veut faire
+     * @return si c'est possible ou non
+     */
+    public boolean isOnForbiddenAxis(ArrayList<int[]> forbidden, int[] the_move) {
+        for (int[] move : forbidden) {
+            int this_move[] = new int[2];
+            this_move[0] = (move[0] == 0) ? 0 : move[0] / abs(move[0]);
+            this_move[1] = (move[1] == 0) ? 0 : move[1] / abs(move[1]);
+            for (int i = 1; i < 8; i++) {
+                int[] nextMove = new int[2];
+                nextMove[0] = this_move[0] * i + move[0];
+                nextMove[1] = this_move[1] * i + move[1];
+                System.out.println("On a x : " + the_move[0] + "\tet y : " + the_move[1]);
+                System.out.println("On va faire x : " + nextMove[0] + "\tet y : " + nextMove[1]);
+                if (the_move[0] == nextMove[0] && the_move[1] == nextMove[1]) {
+                    return false;
                 }
             }
+        }
         return true;
     }
 }
