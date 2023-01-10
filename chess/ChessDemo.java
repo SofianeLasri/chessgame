@@ -20,7 +20,7 @@ public class ChessDemo {
         // Initialization
         mgrLayers.setPreferredSize(new Dimension(windowWidth, windowHeight));
 
-        ChessGUI.showOnFrame(mgrLayers, "Comment r�ussir les �checs");
+        ChessGUI.showOnFrame(mgrLayers, "Comment réussir les échecs");
         titleBarHeight = ChessGUI.frame.getInsets().top;
         ChessMouseEvent chessMouseEvent = ChessGUI.getChessMouseEvent();
         rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

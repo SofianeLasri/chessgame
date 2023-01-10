@@ -57,9 +57,9 @@ public class ChessTable {
             ArrayList<Piece> rowColumns = new ArrayList<>();
             for (int y = 1; y <= tableCellNumber; y++) {
                 if ((x + y) % 2 == 0) {
-                    drawCell(x, y, Color.BLACK);
+                    drawCell(x, y, Color.white);
                 } else {
-                    drawCell(x, y, Color.WHITE);
+                    drawCell(x, y, Color.black);
                 }
                 rowColumns.add(null);
             }
@@ -277,8 +277,6 @@ public class ChessTable {
                 int[] nextMove = new int[2];
                 nextMove[0] = this_move[0] * i + move[0];
                 nextMove[1] = this_move[1] * i + move[1];
-                System.out.println("On a x : " + the_move[0] + "\tet y : " + the_move[1]);
-                System.out.println("On va faire x : " + nextMove[0] + "\tet y : " + nextMove[1]);
                 if (the_move[0] == nextMove[0] && the_move[1] == nextMove[1]) {
                     return false;
                 }

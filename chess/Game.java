@@ -4,9 +4,13 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Math.abs;
+
 public class Game {
     private static Player p1, p2;
     private Piece selectedPiece = null;
+
+    private ArrayList<int[]> moves = new ArrayList<>();
 
     public static final List<String> piecesList = new ArrayList<>() {
         {
@@ -45,7 +49,7 @@ public class Game {
             // On avait pas de pièce précédemment cliquée
             if (selectedPiece != null) {
                 ChessDemo.table.highLightCell(selectedPiece.getPosX(), selectedPiece.getPosY(), Color.YELLOW);
-                getMovesPossible(selectedPiece);
+                moves = getMovesPossible(selectedPiece);
             } else {
                 System.out.println("Ceci n'est pas une pièce.");
             }
@@ -54,8 +58,12 @@ public class Game {
                 // On va déplacer la pièce actuelle
                 int[] cellCordinates = ChessDemo.table.getCellAtScreenCoordinates(x, y);
                 if (cellCordinates != null) {
-                    ChessDemo.table.movePiece(cellCordinates[0], cellCordinates[1], oldSelectedPiece);
-                    selectedPiece = null;
+                    for(int[] move : moves){
+                        if(move[0]-1 == cellCordinates[0] && move[1]-1 == cellCordinates[1]) {
+                            ChessDemo.table.movePiece(cellCordinates[0], cellCordinates[1], oldSelectedPiece);
+                            selectedPiece = null;
+                        }
+                    }
                 } else {
                     System.out.println("Le clique était en dehors de la table de jeu.");
                 }
@@ -67,7 +75,7 @@ public class Game {
         }
     }
 
-    public void getMovesPossible(Piece p) {
+    public ArrayList<int[]> getMovesPossible(Piece p) {
         ArrayList<int[]> array_returned = new ArrayList<>();
 
         ArrayList<int[]> array = p.getType().PossibleMove();
@@ -88,12 +96,33 @@ public class Game {
                 Piece adverse = ChessDemo.table.getPieceAtCellCoordinates(movex, movey);
                 if (ChessDemo.table.isNotOnForbiddenAxis(forbiddenAxes, move)) {
                     if (adverse == null) {
-                        ChessDemo.table.highLightCell(movex, movey, Color.GREEN);
-                        array_returned.add(this_move);
+                        if(p.getType().getType().equals((new PieceType("pawn")).getType())){
+                            if(abs(move[0]) != abs(move[1])) {
+                                if (abs(move[1]) == 2) {
+                                    if ((p.getPosY() == 7 && p.getColor() == "white") || (p.getPosY() == 2 && p.getColor() == "black")) {
+                                        ChessDemo.table.highLightCell(movex, movey, Color.GREEN);
+                                        array_returned.add(this_move);
+                                    }
+                                } else {
+                                    ChessDemo.table.highLightCell(movex, movey, Color.GREEN);
+                                    array_returned.add(this_move);
+                                }
+                            }
+                        }else {
+                            ChessDemo.table.highLightCell(movex, movey, Color.GREEN);
+                            array_returned.add(this_move);
+                        }
                     } else {
                         if (adverse.getColor() != p.getColor()) {
-                            ChessDemo.table.highLightCell(movex, movey, Color.RED);
-                            array_returned.add(this_move);
+                            if(p.getType().getType().equals((new PieceType("pawn")).getType())){
+                                if(abs(move[0]) == abs(move[1])){
+                                    ChessDemo.table.highLightCell(movex, movey, Color.RED);
+                                    array_returned.add(this_move);
+                                }
+                            }else{
+                                ChessDemo.table.highLightCell(movex, movey, Color.RED);
+                                array_returned.add(this_move);
+                            }
                         }
                         int[] distance = ChessDemo.table.getDistanceBetweenPieces(p, adverse);
                         forbiddenAxes.add(distance);
@@ -101,5 +130,6 @@ public class Game {
                 }
             }
         }
+        return array_returned;
     }
 }
