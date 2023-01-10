@@ -1,11 +1,8 @@
 package chess;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-
-import static chess.ChessDemo.chessGraphicTool;
 
 public class Game {
     private static Player p1, p2;
@@ -43,7 +40,7 @@ public class Game {
         // Faudrait faire le système de tour par tour pour savoir qui a cliqué
         Piece oldSelectedPiece = selectedPiece;
 
-        selectedPiece = ChessDemo.table.getPieceAtCoordinate(x, y);
+        selectedPiece = ChessDemo.table.getPieceAtScreenCoordinates(x, y);
         if (oldSelectedPiece == null) {
             // On avait pas de pièce précédemment cliquée
             if (selectedPiece != null) {
@@ -55,7 +52,7 @@ public class Game {
         } else {
             if(oldSelectedPiece != selectedPiece){
                 // On va déplacer la pièce actuelle
-                int[] cellCordinates = ChessDemo.table.getCellAtCoordinates(x, y);
+                int[] cellCordinates = ChessDemo.table.getCellAtScreenCoordinates(x, y);
                 if (cellCordinates != null) {
                     ChessDemo.table.movePiece(cellCordinates[0], cellCordinates[1], oldSelectedPiece);
                     selectedPiece = null;

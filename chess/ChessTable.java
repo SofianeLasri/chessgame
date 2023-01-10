@@ -7,28 +7,23 @@ import java.util.ArrayList;
 import static chess.ChessDemo.chessGraphicTool;
 import static java.lang.Math.round;
 
+@SuppressWarnings("SuspiciousNameCombination")
 public class ChessTable {
     private final int tableCellNumber = 8;
     private final int cellWidth = 80;
-    private final int cellHighlightStrokeWidth = round(cellWidth / 16);
-    private int xOrigin;
-    private int yOrigin;
-    private LayerManagement chessGameLayers;
-    private BufferedImage chessBoard;
-    private Graphics2D chessBoardGC;
-    private BufferedImage cellsHighlight;
-    private Graphics2D cellsHighlightGC;
+    private final int cellHighlightStrokeWidth = round(cellWidth / (float) 16);
+    private final int xOrigin;
+    private final int yOrigin;
+    private final BufferedImage chessBoard;
+    private final Graphics2D chessBoardGC;
+    private final BufferedImage cellsHighlight;
+    private final Graphics2D cellsHighlightGC;
     private final BufferedImage emptyLayer = new BufferedImage(ChessDemo.windowWidth, ChessDemo.windowHeight, BufferedImage.TYPE_INT_ARGB);
 
-    private ArrayList<ArrayList> pieceRows;
-
-    private static int positions(int x) {
-        return x * 80 + 40;
-    }
+    private final ArrayList<ArrayList<Piece>> pieceRows;
 
     public ChessTable(LayerManagement mgrLayers) {
         // On commence par tracer la table d'échecs
-        chessGameLayers = mgrLayers;
 
         chessBoard = new BufferedImage(ChessDemo.windowWidth, ChessDemo.windowHeight, BufferedImage.TYPE_INT_ARGB);
         mgrLayers.addLayer(chessBoard);
@@ -42,18 +37,18 @@ public class ChessTable {
 
 
         // On calcule l'origine de la table d'échec, basé sur le nombre de cellules et de leur taille
-        xOrigin = round((ChessDemo.windowWidth - (tableCellNumber * cellWidth)) / 2);
-        yOrigin = round((ChessDemo.windowHeight - (tableCellNumber * cellWidth)) / 2);
+        xOrigin = round((ChessDemo.windowWidth - (tableCellNumber * cellWidth)) / (float) 2);
+        yOrigin = round((ChessDemo.windowHeight - (tableCellNumber * cellWidth)) / (float) 2);
 
         if (xOrigin < 0 || yOrigin < 0) {
             System.out.println("Error: The jFrame (window) is not wide enought!");
             System.out.println("Here is the minimal size: square" + (tableCellNumber * cellWidth) + "px");
         }
 
-        pieceRows = new ArrayList();
+        pieceRows = new ArrayList<>();
         for (int x = 1; x <= tableCellNumber; x++) {
             // On en profite pour pre-remplir la liste des pièces
-            ArrayList rowColumns = new ArrayList<Piece>();
+            ArrayList<Piece> rowColumns = new ArrayList<>();
             for (int y = 1; y <= tableCellNumber; y++) {
                 if ((x + y) % 2 == 0) {
                     drawCell(x, y, Color.BLACK);
@@ -115,16 +110,15 @@ public class ChessTable {
         pieceRows.get((cellRowNum - 1)).set((cellColumnNum - 1), piece);
     }
 
-    public void movePiece(int cellColumnNum, int cellRowNum, Piece piece){
+    public void movePiece(int cellColumnNum, int cellRowNum, Piece piece) {
         // On déréférence la pièce de sa position dans la liste des pièces
         pieceRows.get((piece.getPosY())).set((piece.getPosX()), null);
         // On lui donne sa nouvelle position
         piece.setPos(cellColumnNum + 1, cellRowNum + 1);
 
         // On check si on avait pas une pièce à ces coordonnées
-        System.out.println("oldPieceCellX:" + cellColumnNum + " oldPieceCellY:" + cellRowNum);
-        Piece oldPiece = (Piece) pieceRows.get(cellRowNum).get(cellColumnNum);
-        if(oldPiece != null) {
+        Piece oldPiece = pieceRows.get(cellRowNum).get(cellColumnNum);
+        if (oldPiece != null) {
             oldPiece.isNowDown();
             oldPiece.getLayeredImage().setData(emptyLayer.getRaster());
             oldPiece.setPos(-1, -1);
@@ -140,71 +134,71 @@ public class ChessTable {
 
         // Enfin, on référencie la nouvelle pièce dans la cellule souhaitée
         pieceRows.get((cellRowNum)).set((cellColumnNum), piece);
-
-        System.out.println("L'ancienne pièce a été masquée. (je crois)");
     }
 
-    /**Récupère la pièce aux coordonnées du clic de la souris**/
-    public Piece getPieceAtCoordinate(int x, int y) {
+    /**
+     * Récupère la pièce aux coordonnées du clic de la souris
+     *
+     * @param x Position x
+     * @param y Position y
+     * @return Pièce
+     */
+    public Piece getPieceAtScreenCoordinates(int x, int y) {
         // On va déterminer de quelle cellule il s'agit
-        int[] coordinates = getCellAtCoordinates(x, y);
+        int[] coordinates = getCellAtScreenCoordinates(x, y);
 
-        if(coordinates != null){
-            System.out.println("cellX:" + coordinates[0] + " cellY:" + coordinates[1]);
-
-            Piece piece = (Piece) pieceRows.get(coordinates[1]).get(coordinates[0]);
-            if(piece != null) {
-                return piece;
-            }
+        if (coordinates != null) {
+            return pieceRows.get(coordinates[1]).get(coordinates[0]);
         }
         return null;
     }
 
-    /****/
-    public Piece getPieceAtCellCoordinates(int PieceRowNum, int PieceColNum){
-        return (Piece) pieceRows.get(PieceColNum-1).get(PieceRowNum-1);
+    /**
+     * Récupère la pièce aux coordonnées de la cellule.
+     *
+     * @param PieceRowNum Numéro de la ligne de la cellule (1-8)
+     * @param PieceColNum Numéro de la colonne de la cellule (1-8)
+     * @return Pièce
+     */
+    public Piece getPieceAtCellCoordinates(int PieceRowNum, int PieceColNum) {
+        return pieceRows.get(PieceColNum - 1).get(PieceRowNum - 1);
     }
 
-    /**Récupère les positions de la cellule aux coordonnées du clic de la souris**/
-    public int[] getCellAtCoordinates(int x, int y){
-        int cellColumnNum = -1, cellRowNum = -1;
+    /**
+     * Récupère les positions de la cellule aux coordonnées du clic de la souris
+     *
+     * @param x Position x
+     * @param y Position y
+     * @return Pièce
+     */
+    public int[] getCellAtScreenCoordinates(int x, int y) {
 
         // Ici on calcule la taille de la marge de gauche
         int calcWidth = (ChessDemo.windowWidth - (cellWidth * tableCellNumber)) / 2;
         if (x > calcWidth) {
             // On incrémente la largeur pour chaque cellule
-            for (int i = 0; i < tableCellNumber; i++) {
+            for (int cellColumnNum = 0; cellColumnNum < tableCellNumber; cellColumnNum++) {
                 calcWidth += cellWidth;
 
                 // On a trouvé sa colonne
                 if (x < calcWidth) {
-                    cellColumnNum = i;
+
+                    // Pareil pour les lignes maintenant
+                    int calcHeight = (ChessDemo.windowHeight - (cellWidth * tableCellNumber)) / 2 + ChessDemo.titleBarHeight;
+                    if (y > calcHeight) {
+                        // On incrémente la largeur pour chaque cellule
+                        for (int cellRowNum = 0; cellRowNum < tableCellNumber; cellRowNum++) {
+                            calcHeight += cellWidth;
+
+                            if (y < calcHeight) {
+                                return new int[]{cellColumnNum, cellRowNum};
+                            }
+                        }
+                    }
                     break;
                 }
             }
         }
-        if(cellColumnNum == -1){
-            return null;
-        }
-
-        // Pareil pour les lignes maintenant
-        int calcHeight = (ChessDemo.windowHeight - (cellWidth * tableCellNumber)) / 2 + ChessDemo.titleBarHeight;
-        if (y > calcHeight) {
-            // On incrémente la largeur pour chaque cellule
-            for (int j = 0; j < tableCellNumber; j++) {
-                calcHeight += cellWidth;
-
-                if (y < calcHeight) {
-                    cellRowNum = j;
-                    break;
-                }
-            }
-        }
-
-        if(cellRowNum == -1){
-            return null;
-        }
-
-        return new int[]{cellColumnNum, cellRowNum};
+        return null;
     }
 }

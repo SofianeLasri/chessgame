@@ -28,7 +28,6 @@ public class Player {
     }
 
     public Player(String color) {
-        super();
         this.color = color;
         createPieces();
     }
