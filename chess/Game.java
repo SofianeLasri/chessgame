@@ -45,7 +45,7 @@ public class Game {
             // On avait pas de pièce précédemment cliquée
             if (selectedPiece != null) {
                 ChessDemo.table.highLightCell(selectedPiece.getPosX(), selectedPiece.getPosY(), Color.YELLOW);
-                getMoves(selectedPiece);
+                getMovesPossible(selectedPiece);
             } else {
                 System.out.println("Ceci n'est pas une pièce.");
             }
@@ -67,20 +67,26 @@ public class Game {
         }
     }
 
-    public void getMoves(Piece piece){
-        ArrayList<int[]> array = piece.getType().PossibleMove();
+    public void getMovesPossible(Piece p){
+        ArrayList<int[]> array = p.getType().PossibleMove();
+
+        //En gros, ici on gère les 8 axes du tableau
+        //On veut faire en sorte que le système retienne à partir de quelle distance un move n'est plus possible
+        ArrayList<int[]> forbiddenAxes = new ArrayList<>();
         for(int[] move : array){
-            int movex = piece.getPosX() + move[0];
-            int movey = piece.getPosY() + move[1];
+            if(p.getColor() == "white"){move[1] = -move[1];} //Pour que les blancs aillent vers le haut
+            int movex = p.getPosX() + move[0];
+            int movey = p.getPosY() + move[1];
             if(/*&&*/ movex > 0 && movex <= 8 && movey > 0 && movey <= 8){
-                if(ChessDemo.table.getPieceAtCellCoordinates(movex, movey) == null){
-                    System.out.println("On fait faire ce move : " +movex + " " + movey);
-                    ChessDemo.table.highLightCell(movex, movey, Color.GREEN);
+                Piece adverse = ChessDemo.table.getPieceAtCellCoordinates(movex, movey);
+                if(adverse == null){
+                    if(ChessDemo.table.isOnForbiddenAxis(forbiddenAxes, move)){
+                        ChessDemo.table.highLightCell(movex, movey, Color.GREEN);
+                    }
                 }else{
-                    System.out.println("Piece existante en : " + movex + ", " + movey);
+                    int[] distance = ChessDemo.table.getDistanceBetweenPieces(p, adverse);
+                    forbiddenAxes.add(distance);
                 }
-            }else{
-                System.out.println("Move en dehors des limites : " + movex +", " + movey);
             }
         }
     }
