@@ -22,6 +22,10 @@ public class ChessTable {
 
     private final ArrayList<ArrayList<Piece>> pieceRows;
 
+    /**
+     * Créé un tableau d'échec
+     * @param mgrLayers Variables des calques sur laquelle dessiner le tableau
+     */
     public ChessTable(LayerManagement mgrLayers) {
         // On commence par tracer la table d'échecs
 
@@ -63,6 +67,12 @@ public class ChessTable {
         highLightCell(3, 3, Color.ORANGE);
     }
 
+    /**
+     * Dessiner une cellule
+     * @param cellColumnNum Numéro de la colonne de la cellule
+     * @param cellRowNum Numéro de la ligne de la cellule
+     * @param color Couleur
+     */
     public void drawCell(int cellColumnNum, int cellRowNum, Color color) {
         int cellPosX = xOrigin + ((cellColumnNum - 1) * cellWidth);
         int cellPosY = yOrigin + ((cellRowNum - 1) * cellWidth);
@@ -72,6 +82,12 @@ public class ChessTable {
         chessBoardGC.fillRect(cellPosX, cellPosY, cellWidth, cellWidth);
     }
 
+    /**
+     * Mettre en valeur une cellule du tableau d'échec
+     * @param cellColumnNum Numéro de la colonne de la cellule
+     * @param cellRowNum Numéro de la ligne de la cellule
+     * @param color Couleur
+     */
     public void highLightCell(int cellColumnNum, int cellRowNum, Color color) {
         int cellPosX = xOrigin + ((cellColumnNum - 1) * cellWidth);
         int cellPosY = yOrigin + ((cellRowNum - 1) * cellWidth);
@@ -92,6 +108,12 @@ public class ChessTable {
         cellsHighlight.setData(emptyLayer.getRaster());
     }
 
+    /**
+     * Placer une pièce sur une cellule aux coordonées données
+     * @param cellColumnNum Numéro de la colonne de la cellule
+     * @param cellRowNum Numéro de la ligne de la cellule
+     * @param piece Pièce
+     */
     public void placePiece(int cellColumnNum, int cellRowNum, Piece piece) {
         int piecePosX = xOrigin + ((cellColumnNum - 1) * cellWidth) + (cellWidth - Piece.imageSize) / 2;
         int piecePosY = yOrigin + ((cellRowNum - 1) * cellWidth) + (cellWidth - Piece.imageSize) / 2;
@@ -110,6 +132,12 @@ public class ChessTable {
         pieceRows.get((cellRowNum - 1)).set((cellColumnNum - 1), piece);
     }
 
+    /**
+     * Déplacer une pièce sur les coordonnées données
+     * @param cellColumnNum Numéro de la colonne de destination
+     * @param cellRowNum Numéro de la ligne de destination
+     * @param piece Pièce à déplacer
+     */
     public void movePiece(int cellColumnNum, int cellRowNum, Piece piece) {
         // On déréférence la pièce de sa position dans la liste des pièces
         pieceRows.get((piece.getPosY())).set((piece.getPosX()), null);
