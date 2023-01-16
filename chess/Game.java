@@ -7,6 +7,8 @@ import java.util.List;
 import static java.lang.Math.abs;
 
 public class Game {
+    public static boolean isfinished = false;
+    private String currentPlayer = "white";
     private static Player p1, p2;
     private Piece selectedPiece = null;
 
@@ -39,38 +41,47 @@ public class Game {
     }
 
     public void playerClicked(int x, int y) {
-        ChessDemo.table.clearHighLights();
+        if(!isfinished) {
+            ChessDemo.table.clearHighLights();
 
-        // Faudrait faire le système de tour par tour pour savoir qui a cliqué
-        Piece oldSelectedPiece = selectedPiece;
+            // Faudrait faire le système de tour par tour pour savoir qui a cliqué
+            Piece oldSelectedPiece = selectedPiece;
 
-        selectedPiece = ChessDemo.table.getPieceAtScreenCoordinates(x, y);
-        if (oldSelectedPiece == null) {
-            // On avait pas de pièce précédemment cliquée
-            if (selectedPiece != null) {
-                ChessDemo.table.highLightCell(selectedPiece.getPosX(), selectedPiece.getPosY(), Color.YELLOW);
-                moves = getMovesPossible(selectedPiece);
-            } else {
-                System.out.println("Ceci n'est pas une pièce.");
-            }
-        } else {
-            if (oldSelectedPiece != selectedPiece) {
-                // On va déplacer la pièce actuelle
-                int[] cellCordinates = ChessDemo.table.getCellAtScreenCoordinates(x, y);
-                if (cellCordinates != null) {
-                    for(int[] move : moves){
-                        if(move[0]-1 == cellCordinates[0] && move[1]-1 == cellCordinates[1]) {
-                            ChessDemo.table.movePiece(cellCordinates[0], cellCordinates[1], oldSelectedPiece);
-                            selectedPiece = null;
+            selectedPiece = ChessDemo.table.getPieceAtScreenCoordinates(x, y);
+                if (oldSelectedPiece == null) {
+                    // On avait pas de pièce précédemment cliquée
+                    if (selectedPiece != null) {
+                        if(selectedPiece.getColor().equals(currentPlayer)) {
+                            ChessDemo.table.highLightCell(selectedPiece.getPosX(), selectedPiece.getPosY(), Color.YELLOW);
+                            moves = getMovesPossible(selectedPiece);
                         }
+                    } else {
+                        System.out.println("Ceci n'est pas une pièce.");
                     }
                 } else {
-                    System.out.println("Le clique était en dehors de la table de jeu.");
-                }
-            } else {
-                // On la déselectionne
-                System.out.println("OLD:" + oldSelectedPiece.getPosX() + ";" + oldSelectedPiece.getPosY() + " - NEW:" + selectedPiece.getPosX() + ";" + selectedPiece.getPosY());
-                selectedPiece = null;
+                    if (oldSelectedPiece != selectedPiece) {
+                        // On va déplacer la pièce actuelle
+                        int[] cellCordinates = ChessDemo.table.getCellAtScreenCoordinates(x, y);
+                        if (cellCordinates != null) {
+                            for (int[] move : moves) {
+                                if (move[0] - 1 == cellCordinates[0] && move[1] - 1 == cellCordinates[1]) {
+                                    ChessDemo.table.movePiece(cellCordinates[0], cellCordinates[1], oldSelectedPiece);
+                                    selectedPiece = null;
+                                    if (currentPlayer.equals("white")) {
+                                        currentPlayer = "black";
+                                    } else {
+                                        currentPlayer = "white";
+                                    }
+                                }
+                            }
+                        } else {
+                            System.out.println("Le clique était en dehors de la table de jeu.");
+                        }
+                    } else {
+                        // On la déselectionne
+                        System.out.println("OLD:" + oldSelectedPiece.getPosX() + ";" + oldSelectedPiece.getPosY() + " - NEW:" + selectedPiece.getPosX() + ";" + selectedPiece.getPosY());
+                        selectedPiece = null;
+                    }
             }
         }
     }
@@ -96,7 +107,7 @@ public class Game {
                 Piece adverse = ChessDemo.table.getPieceAtCellCoordinates(movex, movey);
                 if (ChessDemo.table.isNotOnForbiddenAxis(forbiddenAxes, move)) {
                     if (adverse == null) {
-                        if(p.getType().getType().equals((new PieceType("pawn")).getType())){
+                        if(p.getType().getType().equals("pawn")){
                             if(abs(move[0]) != abs(move[1])) {
                                 if (abs(move[1]) == 2) {
                                     if ((p.getPosY() == 7 && p.getColor() == "white") || (p.getPosY() == 2 && p.getColor() == "black")) {
@@ -114,7 +125,7 @@ public class Game {
                         }
                     } else {
                         if (adverse.getColor() != p.getColor()) {
-                            if(p.getType().getType().equals((new PieceType("pawn")).getType())){
+                            if(p.getType().getType().equals("pawn")){
                                 if(abs(move[0]) == abs(move[1])){
                                     ChessDemo.table.highLightCell(movex, movey, Color.RED);
                                     array_returned.add(this_move);

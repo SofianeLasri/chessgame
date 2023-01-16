@@ -60,7 +60,20 @@ public class Piece {
 
     public Piece(String image, String color) {
         super();
-        this.type = new PieceType(image.split("-")[0]);
+        String type = image.split("-")[0];
+        int score = 0;
+        if(type.equals("pawn")){
+            score = 1;
+        } else if (type.equals("bishop") || type.equals("knight")) {
+            score = 3;
+        } else if (type.equals("rook")) {
+            score = 5;
+        } else if (type.equals("queen")) {
+            score = 9;
+        }else{
+            score = 30;
+        }
+        this.type = new PieceType(type, score);
         this.color = color;
         this.image = ChessGraphicTool.load(ChessDemo.imagePath + image);
     }

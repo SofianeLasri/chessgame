@@ -5,13 +5,16 @@ import java.util.ArrayList;
 public class PieceType {
     String type;
 
+	int score;
+
     public String getType() {
         return type;
     }
 
-    public PieceType(String type) {
+    public PieceType(String type, int score) {
         super();
         this.type = type;
+		this.score = score;
     }
 
     public void setType(String type) {

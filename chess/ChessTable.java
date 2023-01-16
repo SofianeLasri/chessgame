@@ -158,6 +158,11 @@ public class ChessTable {
             oldPiece.isNowDown();
             oldPiece.getLayeredImage().setData(emptyLayer.getRaster());
             oldPiece.setPos(-1, -1);
+            System.out.println(oldPiece.getType().getType());
+            if(oldPiece.getType().getType().equals("king")){
+                System.out.println("La partie est terminée.");
+                Game.isfinished = true;
+            }
         }
 
         // On déplace l'image de la pièce
