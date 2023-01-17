@@ -1,10 +1,7 @@
 package chess;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-
-import static chess.ChessDemo.chessGraphicTool;
 
 public class Player {
     private final String color;

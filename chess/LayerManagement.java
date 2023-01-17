@@ -1,7 +1,6 @@
 package chess;
 
 
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
@@ -9,7 +8,7 @@ import java.util.ArrayList;
 
 public class LayerManagement extends JPanel {
 	
-	ArrayList<BufferedImage> layers;
+	final ArrayList<BufferedImage> layers;
 	
 	public LayerManagement() {
         layers = new ArrayList<BufferedImage>();

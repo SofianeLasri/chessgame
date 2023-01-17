@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 public class Piece {
     private PieceType type;
-    private BufferedImage image;
+    private final BufferedImage image;
 
     public BufferedImage getLayeredImage() {
         return layeredImage;
@@ -15,7 +15,7 @@ public class Piece {
     }
 
     private BufferedImage layeredImage;
-    private String color;
+    private final String color;
     public static final int imageSize = 40;
     private int posX = 0;
     private int posY = 0;
@@ -61,18 +61,13 @@ public class Piece {
     public Piece(String image, String color) {
         super();
         String type = image.split("-")[0];
-        int score = 0;
-        if(type.equals("pawn")){
-            score = 1;
-        } else if (type.equals("bishop") || type.equals("knight")) {
-            score = 3;
-        } else if (type.equals("rook")) {
-            score = 5;
-        } else if (type.equals("queen")) {
-            score = 9;
-        }else{
-            score = 30;
-        }
+        int score = switch (type) {
+            case "pawn" -> 1;
+            case "bishop", "knight" -> 3;
+            case "rook" -> 5;
+            case "queen" -> 9;
+            default -> 30;
+        };
         this.type = new PieceType(type, score);
         this.color = color;
         this.image = ChessGraphicTool.load(ChessDemo.imagePath + image);

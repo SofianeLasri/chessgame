@@ -21,8 +21,11 @@ public class ChessGraphicTool {
         File file;
         try {
             URL fileUrl = ChessGraphicTool.class.getResource(imagePath);
-            file = new File(fileUrl.getPath());
-            if (!file.exists()) return null;        // image not found
+            if (fileUrl != null) {
+                file = new File(fileUrl.getPath());
+            } else {
+                return null; // image not found
+            }
             return ImageIO.read(file);
         } catch (IOException e) {
             e.printStackTrace();
