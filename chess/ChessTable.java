@@ -15,7 +15,6 @@ public class ChessTable {
     private final int cellHighlightStrokeWidth = round(cellWidth / (float) 16);
     private final int xOrigin;
     private final int yOrigin;
-    private final BufferedImage chessBoard;
     private final Graphics2D chessBoardGC;
     private final BufferedImage cellsHighlight;
     private final Graphics2D cellsHighlightGC;
@@ -31,7 +30,7 @@ public class ChessTable {
     public ChessTable(LayerManagement mgrLayers) {
         // On commence par tracer la table d'échecs
 
-        chessBoard = new BufferedImage(ChessDemo.windowWidth, ChessDemo.windowHeight, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage chessBoard = new BufferedImage(ChessDemo.windowWidth, ChessDemo.windowHeight, BufferedImage.TYPE_INT_ARGB);
         mgrLayers.addLayer(chessBoard);
         chessBoardGC = (Graphics2D) chessBoard.getGraphics();
         chessBoardGC.setRenderingHints(ChessDemo.rh);
@@ -154,12 +153,14 @@ public class ChessTable {
 
         // On check si on avait pas une pièce à ces coordonnées
         Piece oldPiece = pieceRows.get(cellRowNum).get(cellColumnNum);
+
         if (oldPiece != null) {
             oldPiece.isNowDown();
             oldPiece.getLayeredImage().setData(emptyLayer.getRaster());
             oldPiece.setPos(-1, -1);
             System.out.println(oldPiece.getType().getType());
-            if(oldPiece.getType().getType().equals("king")){
+
+            if (oldPiece.getType().getType().equals("king")) {
                 System.out.println("La partie est terminée.");
                 Game.isfinished = true;
             }
@@ -275,7 +276,7 @@ public class ChessTable {
      */
     public boolean isNotOnForbiddenAxis(ArrayList<int[]> forbidden, int[] the_move) {
         for (int[] move : forbidden) {
-            int this_move[] = new int[2];
+            int[] this_move = new int[2];
             this_move[0] = (move[0] == 0) ? 0 : move[0] / abs(move[0]);
             this_move[1] = (move[1] == 0) ? 0 : move[1] / abs(move[1]);
             for (int i = 1; i < 8; i++) {
