@@ -8,7 +8,9 @@ import static chess.ChessDemo.chessGraphicTool;
 import static java.lang.Math.abs;
 import static java.lang.Math.round;
 
-@SuppressWarnings("SuspiciousNameCombination")
+/**
+ * This class handle the chess table.
+ */
 public class ChessTable {
     private final int tableCellNumber = 8;
     private final int cellWidth = 80;
@@ -23,12 +25,12 @@ public class ChessTable {
     private final ArrayList<ArrayList<Piece>> pieceRows;
 
     /**
-     * Créé un tableau d'échec
+     * CrÃ©Ã© un tableau d'Ã©chec
      *
      * @param mgrLayers Variables des calques sur laquelle dessiner le tableau
      */
     public ChessTable(LayerManagement mgrLayers) {
-        // On commence par tracer la table d'échecs
+        // On commence par tracer la table d'Ã©checs
 
         BufferedImage chessBoard = new BufferedImage(ChessDemo.windowWidth, ChessDemo.windowHeight, BufferedImage.TYPE_INT_ARGB);
         mgrLayers.addLayer(chessBoard);
@@ -41,7 +43,7 @@ public class ChessTable {
         cellsHighlightGC.setRenderingHints(ChessDemo.rh);
 
 
-        // On calcule l'origine de la table d'échec, basé sur le nombre de cellules et de leur taille
+        // On calcule l'origine de la table d'Ã©chec, basÃ© sur le nombre de cellules et de leur taille
         xOrigin = round((ChessDemo.windowWidth - (tableCellNumber * cellWidth)) / (float) 2);
         yOrigin = round((ChessDemo.windowHeight - (tableCellNumber * cellWidth)) / (float) 2);
 
@@ -52,7 +54,7 @@ public class ChessTable {
 
         pieceRows = new ArrayList<>();
         for (int x = 1; x <= tableCellNumber; x++) {
-            // On en profite pour pre-remplir la liste des pièces
+            // On en profite pour pre-remplir la liste des piÃ¨ces
             ArrayList<Piece> rowColumns = new ArrayList<>();
             for (int y = 1; y <= tableCellNumber; y++) {
                 if ((x + y) % 2 == 0) {
@@ -69,8 +71,8 @@ public class ChessTable {
     /**
      * Dessiner une cellule
      *
-     * @param cellColumnNum Numéro de la colonne de la cellule
-     * @param cellRowNum    Numéro de la ligne de la cellule
+     * @param cellColumnNum NumÃ©ro de la colonne de la cellule
+     * @param cellRowNum    NumÃ©ro de la ligne de la cellule
      * @param color         Couleur
      */
     public void drawCell(int cellColumnNum, int cellRowNum, Color color) {
@@ -83,10 +85,10 @@ public class ChessTable {
     }
 
     /**
-     * Mettre en valeur une cellule du tableau d'échec
+     * Mettre en valeur une cellule du tableau d'Ã©chec
      *
-     * @param cellColumnNum Numéro de la colonne de la cellule
-     * @param cellRowNum    Numéro de la ligne de la cellule
+     * @param cellColumnNum NumÃ©ro de la colonne de la cellule
+     * @param cellRowNum    NumÃ©ro de la ligne de la cellule
      * @param color         Couleur
      */
     public void highLightCell(int cellColumnNum, int cellRowNum, Color color) {
@@ -106,18 +108,18 @@ public class ChessTable {
     }
 
     /**
-     * Supprimer les mises en évidences de cellules
+     * Supprimer les mises en Ã©vidences de cellules
      */
     public void clearHighLights() {
         cellsHighlight.setData(emptyLayer.getRaster());
     }
 
     /**
-     * Placer une pièce sur une cellule aux coordonées données
+     * Placer une piÃ¨ce sur une cellule aux coordonÃ©es donnÃ©es
      *
-     * @param cellColumnNum Numéro de la colonne de la cellule
-     * @param cellRowNum    Numéro de la ligne de la cellule
-     * @param piece         Pièce
+     * @param cellColumnNum NumÃ©ro de la colonne de la cellule
+     * @param cellRowNum    NumÃ©ro de la ligne de la cellule
+     * @param piece         PiÃ¨ce
      */
     public void placePiece(int cellColumnNum, int cellRowNum, Piece piece) {
         int piecePosX = xOrigin + ((cellColumnNum - 1) * cellWidth) + (cellWidth - Piece.imageSize) / 2;
@@ -138,20 +140,20 @@ public class ChessTable {
     }
 
     /**
-     * Déplacer une pièce sur les coordonnées données
+     * DÃ©placer une piÃ¨ce sur les coordonnÃ©es donnÃ©es
      *
-     * @param cellColumnNum Numéro de la colonne de destination
-     * @param cellRowNum    Numéro de la ligne de destination
-     * @param piece         Pièce à déplacer
+     * @param cellColumnNum NumÃ©ro de la colonne de destination
+     * @param cellRowNum    NumÃ©ro de la ligne de destination
+     * @param piece         PiÃ¨ce Ã  dÃ©placer
      */
     public void movePiece(int cellColumnNum, int cellRowNum, Piece piece) {
-        // On déréférence la pièce de sa position dans la liste des pièces
+        // On dÃ©rÃ©fÃ©rence la piÃ¨ce de sa position dans la liste des piÃ¨ces
         pieceRows.get((piece.getPosY() - 1)).set((piece.getPosX() - 1), null);
 
         // On lui donne sa nouvelle position
         piece.setPos(cellColumnNum + 1, cellRowNum + 1);
 
-        // On check si on avait pas une pièce à ces coordonnées
+        // On check si on avait pas une piÃ¨ce Ã  ces coordonnÃ©es
         Piece oldPiece = pieceRows.get(cellRowNum).get(cellColumnNum);
 
         if (oldPiece != null) {
@@ -161,12 +163,12 @@ public class ChessTable {
             System.out.println(oldPiece.getType().getType());
 
             if (oldPiece.getType().getType().equals("king")) {
-                System.out.println("La partie est terminée.");
+                System.out.println("La partie est terminÃ©e.");
                 Game.isfinished = true;
             }
         }
 
-        // On déplace l'image de la pièce
+        // On dÃ©place l'image de la piÃ¨ce
         piece.getLayeredImage().setData(emptyLayer.getRaster()); // On l'efface pour la redessiner juste en dessous
 
         int piecePosX = xOrigin + (cellColumnNum * cellWidth) + (cellWidth - Piece.imageSize) / 2;
@@ -182,19 +184,19 @@ public class ChessTable {
 
         piece.getLayeredImage().setData(tempImage.getRaster());
 
-        // Enfin, on référencie la nouvelle pièce dans la cellule souhaitée
+        // Enfin, on rÃ©fÃ©rencie la nouvelle piÃ¨ce dans la cellule souhaitÃ©e
         pieceRows.get((cellRowNum)).set((cellColumnNum), piece);
     }
 
     /**
-     * Récupère la pièce aux coordonnées du clic de la souris
+     * RÃ©cupÃ¨re la piÃ¨ce aux coordonnÃ©es du clic de la souris
      *
      * @param x Position x
      * @param y Position y
-     * @return Pièce
+     * @return PiÃ¨ce
      */
     public Piece getPieceAtScreenCoordinates(int x, int y) {
-        // On va déterminer de quelle cellule il s'agit
+        // On va dÃ©terminer de quelle cellule il s'agit
         int[] coordinates = getCellAtScreenCoordinates(x, y);
 
         if (coordinates != null) {
@@ -204,39 +206,39 @@ public class ChessTable {
     }
 
     /**
-     * Récupère la pièce aux coordonnées de la cellule.
+     * RÃ©cupÃ¨re la piÃ¨ce aux coordonnÃ©es de la cellule.
      *
-     * @param PieceRowNum Numéro de la ligne de la cellule (1-8)
-     * @param PieceColNum Numéro de la colonne de la cellule (1-8)
-     * @return Pièce
+     * @param PieceRowNum NumÃ©ro de la ligne de la cellule (1-8)
+     * @param PieceColNum NumÃ©ro de la colonne de la cellule (1-8)
+     * @return PiÃ¨ce
      */
     public Piece getPieceAtCellCoordinates(int PieceRowNum, int PieceColNum) {
         return pieceRows.get(PieceColNum - 1).get(PieceRowNum - 1);
     }
 
     /**
-     * Récupère les positions de la cellule aux coordonnées du clic de la souris
+     * RÃ©cupÃ¨re les positions de la cellule aux coordonnÃ©es du clic de la souris
      *
      * @param x Position x
      * @param y Position y
-     * @return Pièce
+     * @return PiÃ¨ce
      */
     public int[] getCellAtScreenCoordinates(int x, int y) {
 
         // Ici on calcule la taille de la marge de gauche
         int calcWidth = (ChessDemo.windowWidth - (cellWidth * tableCellNumber)) / 2;
         if (x > calcWidth) {
-            // On incrémente la largeur pour chaque cellule
+            // On incrÃ©mente la largeur pour chaque cellule
             for (int cellColumnNum = 0; cellColumnNum < tableCellNumber; cellColumnNum++) {
                 calcWidth += cellWidth;
 
-                // On a trouvé sa colonne
+                // On a trouvÃ© sa colonne
                 if (x < calcWidth) {
 
                     // Pareil pour les lignes maintenant
                     int calcHeight = (ChessDemo.windowHeight - (cellWidth * tableCellNumber)) / 2 + ChessDemo.titleBarHeight;
                     if (y > calcHeight) {
-                        // On incrémente la largeur pour chaque cellule
+                        // On incrÃ©mente la largeur pour chaque cellule
                         for (int cellRowNum = 0; cellRowNum < tableCellNumber; cellRowNum++) {
                             calcHeight += cellWidth;
 
@@ -253,11 +255,11 @@ public class ChessTable {
     }
 
     /**
-     * Permet de calculer la distance entre deux pièces
+     * Permet de calculer la distance entre deux piÃ¨ces
      *
-     * @param p1 Pièce 1
-     * @param p2 Pièce 2
-     * @return Distance entre les deux pièces
+     * @param p1 PiÃ¨ce 1
+     * @param p2 PiÃ¨ce 2
+     * @return Distance entre les deux piÃ¨ces
      */
     public int[] getDistanceBetweenPieces(Piece p1, Piece p2) {
         int[] array = new int[2];
@@ -268,9 +270,9 @@ public class ChessTable {
     }
 
     /**
-     * Vérifie si on est sur un axe interdit
+     * VÃ©rifie si on est sur un axe interdit
      *
-     * @param forbidden les moves interdits déjà donnés
+     * @param forbidden les moves interdits dÃ©jÃ  donnÃ©s
      * @param the_move  le move qu'on veut faire
      * @return si c'est possible ou non
      */

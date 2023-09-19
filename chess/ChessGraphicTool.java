@@ -7,9 +7,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-
+/**
+ * The chess graphic tool
+ */
 public class ChessGraphicTool {
-
 
     /**
      * load an image from disk

@@ -6,14 +6,38 @@ import java.util.List;
 
 import static java.lang.Math.abs;
 
+/**
+ * This class handle the game with the players.
+ */
 public class Game {
+    /**
+     * This variable is used to know if the game is finished or not.
+     */
     public static boolean isfinished = false;
+
+    /**
+     * This variable is used to know which player is playing.
+     */
     private String currentPlayer = "white";
+
+    /**
+     * This variable is used to know which player is playing.
+     */
     private static Player p1, p2;
+
+    /**
+     * This variable is used to know which piece is selected.
+     */
     private Piece selectedPiece = null;
 
+    /**
+     * This variable is used to know which moves are possible.
+     */
     private ArrayList<int[]> moves = new ArrayList<>();
 
+    /**
+     * This variable return the pices list.
+     */
     public static final List<String> piecesList = new ArrayList<>() {
         {
             add("rook");
@@ -35,32 +59,40 @@ public class Game {
         }
     };
 
+    /**
+     * This method create the game with the players.
+     */
     public Game() {
         p1 = new Player("black");
         p2 = new Player("white");
     }
 
+    /**
+     * This method handle and register the player click.
+     * @param x position x
+     * @param y position y
+     */
     public void playerClicked(int x, int y) {
         if (!isfinished) {
             ChessDemo.table.clearHighLights();
 
-            // Faudrait faire le système de tour par tour pour savoir qui a cliqué
+            // Faudrait faire le systÃ¨me de tour par tour pour savoir qui a cliquÃ©
             Piece oldSelectedPiece = selectedPiece;
 
             selectedPiece = ChessDemo.table.getPieceAtScreenCoordinates(x, y);
             if (oldSelectedPiece == null) {
-                // On avait pas de pièce précédemment cliquée
+                // On avait pas de piÃ¨ce prÃ©cÃ©demment cliquÃ©e
                 if (selectedPiece != null) {
                     if (selectedPiece.getColor().equals(currentPlayer)) {
                         ChessDemo.table.highLightCell(selectedPiece.getPosX(), selectedPiece.getPosY(), Color.YELLOW);
                         moves = getMovesPossible(selectedPiece);
                     }
                 } else {
-                    System.out.println("Ceci n'est pas une pièce.");
+                    System.out.println("Ceci n'est pas une piÃ¨ce.");
                 }
             } else {
                 if (oldSelectedPiece != selectedPiece) {
-                    // On va déplacer la pièce actuelle
+                    // On va dÃ©placer la piÃ¨ce actuelle
                     int[] cellCordinates = ChessDemo.table.getCellAtScreenCoordinates(x, y);
                     if (cellCordinates != null) {
                         for (int[] move : moves) {
@@ -75,10 +107,10 @@ public class Game {
                             }
                         }
                     } else {
-                        System.out.println("Le clique était en dehors de la table de jeu.");
+                        System.out.println("Le clique Ã©tait en dehors de la table de jeu.");
                     }
                 } else {
-                    // On la déselectionne
+                    // On la dÃ©selectionne
                     System.out.println("OLD:" + oldSelectedPiece.getPosX() + ";" + oldSelectedPiece.getPosY() + " - NEW:" + selectedPiece.getPosX() + ";" + selectedPiece.getPosY());
                     selectedPiece = null;
                 }
@@ -86,13 +118,18 @@ public class Game {
         }
     }
 
+    /**
+     * This method return the piece possible moves
+     * @param p piece
+     * @return the moves possible
+     */
     public ArrayList<int[]> getMovesPossible(Piece p) {
         ArrayList<int[]> array_returned = new ArrayList<>();
 
         ArrayList<int[]> array = p.getType().PossibleMove();
 
-        //En gros, ici on gère les 8 axes du tableau
-        //On veut faire en sorte que le système retienne à partir de quelle distance un move n'est plus possible
+        //En gros, ici on gÃ¨re les 8 axes du tableau
+        //On veut faire en sorte que le systÃ¨me retienne Ã  partir de quelle distance un move n'est plus possible
         ArrayList<int[]> forbiddenAxes = new ArrayList<>();
         for (int[] move : array) {
             if (p.getColor().equals("white")) {

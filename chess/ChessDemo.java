@@ -3,18 +3,54 @@ package chess;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * The main class
+ */
 public class ChessDemo {
+    /**
+     * The path to the images
+     */
     public static final String imagePath = "./images/";
 
+    /**
+     * The window width and height
+     */
     public static final int windowWidth = 840;
+
+    /**
+     * The window width and height
+     */
     public static final int windowHeight = 840;
 
+    /**
+     * The chess graphic tool
+     */
     public static final ChessGraphicTool chessGraphicTool = new ChessGraphicTool();
+
+    /**
+     * The layer management
+     */
     public static final LayerManagement mgrLayers = new LayerManagement();
+
+    /**
+     * The rendering hints
+     */
     public static RenderingHints rh;
+
+    /**
+     * The chess table
+     */
     public static ChessTable table;
+
+    /**
+     * The height of the title bar
+     */
     public static int titleBarHeight;
 
+    /**
+     * The main function
+     * @param args the arguments
+     */
     public static void main(String[] args) {
 
         // Initialization

@@ -7,9 +7,19 @@ import java.awt.event.WindowEvent;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
+/**
+ * This class is used to manage the window and the mouse event
+ */
 public class ChessGUI {
 
+    /**
+     * The window
+     */
     public static JFrame frame;
+
+    /**
+     * The mouse event
+     */
     public static ChessMouseEvent chessMouseEvent;
 
 
@@ -17,7 +27,7 @@ public class ChessGUI {
      * Create window and add the mouse listener to the frame
      *
      * @param component Composant
-     * @param frameName Nom de la fenêtre
+     * @param frameName Nom de la fenÃªtre
      */
     public static void showOnFrame(JComponent component, String frameName) {
         frame = new JFrame(frameName);

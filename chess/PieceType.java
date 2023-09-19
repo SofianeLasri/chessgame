@@ -2,26 +2,49 @@ package chess;
 
 import java.util.ArrayList;
 
+/**
+ * The chess piece type.
+ * This class contains all the possible moves for each piece.
+ */
 public class PieceType {
     String type;
 
+    /**
+     * The score of the piece
+     */
     final int score;
 
+    /**
+     * Get the type of the piece
+     * @return the type of the piece
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * Create a piece type
+     * @param type the type of the piece
+     * @param score the score of the piece
+     */
     public PieceType(String type, int score) {
         super();
         this.type = type;
         this.score = score;
     }
 
+    /**
+     * Set the type of the piece
+     * @param type the type of the piece
+     */
     public void setType(String type) {
         this.type = type;
     }
 
-
+    /**
+     * Get the possible moves for the piece
+     * @return List of possible moves
+     */
     public ArrayList<int[]> PossibleMove() {
         ArrayList<int[]> moves = new ArrayList<int[]>(); //0 = x; 1 = y;
         System.out.println(this.type);

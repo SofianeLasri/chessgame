@@ -4,6 +4,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+/**
+ * This class is used to manage the mouse event
+ */
 public class ChessMouseEvent implements MouseListener, MouseMotionListener {
 
     private boolean drag = false;
@@ -47,6 +50,10 @@ public class ChessMouseEvent implements MouseListener, MouseMotionListener {
         return status;
     }
 
+    /**
+     * Tell us if the user has clicked
+     * @return true on click otherwise false
+     */
     public boolean isClicked() {
         boolean status = clicked;
         this.clicked = false;
@@ -58,8 +65,7 @@ public class ChessMouseEvent implements MouseListener, MouseMotionListener {
 
     /**
      * Invoked when the mouse button has been clicked (pressed and released) on a component.
-     *
-     * @param[in] mouse event
+     * @param mouse the event to be processed
      */
     public void mouseClicked(MouseEvent mouse) {
         clicked = true;
@@ -70,32 +76,28 @@ public class ChessMouseEvent implements MouseListener, MouseMotionListener {
 
     /**
      * implements MouseMotionListener
-     *
-     * @param[in] mouse event
+     * @param mouse the event to be processed
      */
     public void mouseMoved(MouseEvent mouse) {
     }
 
     /**
      * NOT USED - Called when the mouse enters in a component
-     *
-     * @param[in] mouseEvent
+     * @param mouse the event to be processed
      */
     public void mouseEntered(MouseEvent mouse) {
     }
 
     /**
      * NOT USED - Invoked when the mouse exits a component.
-     *
-     * @param[in] mouseReleased
+     * @param mouse the event to be processed
      */
     public void mouseExited(MouseEvent mouse) {
     }
 
     /**
      * Invoked when a mouse button has been released on a component.
-     *
-     * @param[in] mouse event
+     * @param mouse the event to be processed
      */
     public void mouseReleased(MouseEvent mouse) {
         this.drag = false;
@@ -103,19 +105,18 @@ public class ChessMouseEvent implements MouseListener, MouseMotionListener {
 
     /**
      * NOT USED - Invoked when a mouse button has been pressed on a component.
-     *
-     * @param[in] mouse event
+     * @param mouse the event to be processed
      */
     public void mousePressed(MouseEvent mouse) {
     }
 
     /**
-     * implements MouseMotionListener
+     * Implements MouseMotionListener
+     * @param mouse the event to be processed
      */
     public void mouseDragged(MouseEvent mouse) {
         x = mouse.getX();
         y = mouse.getY();
         drag = true;
     }
-
 }
